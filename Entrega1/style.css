@@ -1,4 +1,4 @@
-/* Reset */
+
 * {
     margin: 0;
     padding: 0;
@@ -11,7 +11,8 @@ body {
     color: #fff;
 }
 
-.background{ 
+/*Inserção foto de fundo*/
+.foto{ 
     position: fixed;
     top: 0;
     left: 0;
@@ -23,8 +24,8 @@ body {
 
 }
 
-/* Overlay */
-.overlay {
+/*Inserção de fundo preto*/
+.fundo {
     background-color: rgba(0, 0, 0, 0.2);
     width: 100%;
     height: 100%;
@@ -34,21 +35,22 @@ body {
     align-items: center;
 }
 
-/* Header */
+/*Inserção da logo netfluxo*/
 .logo {
-    position: absolute; /* Permite posicionamento específico */
-    top: 20px; /* Distância do topo */
-    left: 20px; /* Distância da lateral esquerda */
-    z-index: 10; /* Certifica-se de que a imagem ficará acima de outros elementos */
+    position: absolute; 
+    top: 20px; 
+    left: 20px; 
+    z-index: 10; 
 }
 
+/*Customização logo*/
 .logo img {
-    width: 280px; /* Ajusta o tamanho da imagem, caso necessário */
-    height: auto; /* Mantém a proporção da imagem */
+    width: 280px; 
+    height: auto; 
 }
 
-
-.login-box {
+/*Inserção caixa para login*/
+.caixa-login {
     background-color: rgba(0, 0, 0, 0.8);
     padding: 5rem;
     border-radius: 0px;
@@ -56,36 +58,37 @@ body {
     text-align: center;
     position: relative;
     box-sizing: border-box;
-    display: flex; /* Flexbox para centralizar os itens */
+    display: flex; 
     flex-direction: column;
     justify-content: left;
     align-items: center;
 }
 
-
-.login-box h2 {
+/*Inserção do Entrar*/
+.caixa-login h2 {
     font-size: 1.5rem;
     margin-bottom: 1rem;
-    position: absolute; /* Permite o posicionamento absoluto dentro da caixa */
-    top: 0.7rem; /* Coloca o título no topo */
-    left: 10px; /* Distância do título da lateral esquerda */
-    margin: 20px; /* Remove qualquer margem */
+    position: absolute; 
+    top: 0.7rem; 
+    left: 10px; 
+    margin: 20px; 
 }
 
-.login-box input {
-    width: calc(100% + 8rem); /* Adiciona largura extra proporcional */
+/*Customização inputs da caixa de login*/
+.caixa-login input {
+    width: calc(100% + 8rem); 
     background-color: #232323;
     color: #414141;
     padding: 0.5rem;
-    margin: 0.6rem -4rem; /* Negativa a margem para expandir para os lados */
-    border: 2px solid #414141; /* Borda de 2px */
+    margin: 0.6rem -4rem; 
+    border: 2px solid #414141; 
     border-radius: 0px;
     font-size: 1rem;
     display: block;
     box-sizing: border-box;
 }
 
-
+/*Customização Botão Entrar*/
 .login-button{
     width: calc(100% + 8rem);
     padding: 0.5rem;
@@ -99,6 +102,7 @@ body {
     margin: 0.6rem -5rem;
     margin-top: 0.5rem;
 }
+
 
 .codigo-button{
     width: calc(100% + 8rem);
@@ -115,15 +119,15 @@ body {
 
 }
 
-
-.divider {
+/*Inserção ou*/
+.ou {
     margin: 0.5rem 0;
     color: #414137;
     font-size: 0.9rem;
 }
 
-
-.forgot-password {
+/*Inserção esqueceu senha*/
+.esqueceu-senha {
     color: #fff;
     font-size: 1rem;
     display: block;
@@ -131,59 +135,60 @@ body {
     text-decoration: none;
 }
 
-.access-code:hover,
-.forgot-password:hover {
+/*Sublinhado quando passa o mouse*/
+.codigo-button:hover,
+.esqueceu-senha:hover {
     text-decoration: underline;
 }
 
-.options {
-    text-align: left; /* Alinha o conteúdo à esquerda */
-    width: 100%; /* Garante que ocupe a largura total */
-}
-
-
+/*Assine agora*/
 .signup {
     margin-top: 1rem;
     color: #414141;
     font-size: 0.9rem;
-    text-align: center; /* Garante que o texto e o link fiquem à esquerda */
+    text-align: center; 
     width: 100%;
 }
 
+/*Link*/
 .signup a {
     color: #aaa;
     font-weight: bold;
     text-decoration: none;
 }
 
-/* Footer */
+/*Parte de baixo acessível com scroll*/
 footer {
     background-color: rgba(0, 0, 0, 1.0);
     color: #aaa;
-    text-align: left; /* Alinhamento central */
-    padding: 2rem 2rem; /* Espaçamento superior e inferior maior */
+    text-align: left; 
+    padding: 2rem 2rem; 
     font-size: 0.8rem;
 }
 
+/*Links*/
 .footer-links {
     display: flex;
-    justify-content: left; /* Centraliza os links */
-    flex-wrap: wrap; /* Permite que os links quebrem para a próxima linha se necessário */
-    gap: 1rem; /* Espaço entre os links */
-    margin-bottom: 1rem; /* Espaçamento inferior */
+    justify-content: left; 
+    flex-wrap: wrap; 
+    gap: 1rem; 
+    margin-bottom: 1rem; 
     margin-top: 1rem;
 }
 
+/*Customização links*/
 .footer-links a {
-    color: #414141; /* Mantém o mesmo tom de cinza */
+    color: #414141; 
     text-decoration: none;
     font-size: 0.9rem;
 }
 
+/*Sublinhado com o mouse*/
 .footer-links a:hover {
     text-decoration: underline;
 }
 
+/*Português*/
 .language {
     margin-top: 0.5rem;
     font-size: 0.9rem;
