@@ -26,7 +26,7 @@ body {
 
 /*Inserção de fundo preto*/
 .fundo {
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(0, 0, 0, 0.5);
     width: 100%;
     height: 100%;
     display: flex;
@@ -78,10 +78,10 @@ body {
 .caixa-login input {
     width: calc(100% + 8rem); 
     background-color: #232323;
-    color: #414141;
+    color: #4F4F4F;
     padding: 0.5rem;
     margin: 0.6rem -4rem; 
-    border: 2px solid #414141; 
+    border: 2px solid #4F4F4F; 
     border-radius: 0px;
     font-size: 1rem;
     display: block;
@@ -141,13 +141,28 @@ body {
     text-decoration: underline;
 }
 
+.options{
+    margin-top: 1rem;
+    font-size: 1rem;
+    text-align: left;
+    color: #aaa;
+    width: 100%;
+}
+
 /*Assine agora*/
 .signup {
     margin-top: 1rem;
-    color: #414141;
+    color: #4F4F4F;
     font-size: 0.9rem;
-    text-align: center; 
-    width: 100%;
+    text-align: left; 
+    width: 160%;
+}
+
+.duvida{
+    color: #4F4F4F;
+    font-size: 1rem;
+    margin-top: 1px ;
+    margin-bottom: 1px;
 }
 
 /*Link*/
@@ -162,25 +177,41 @@ footer {
     background-color: rgba(0, 0, 0, 1.0);
     color: #aaa;
     text-align: left; 
-    padding: 2rem 2rem; 
-    font-size: 0.8rem;
+    padding: 2rem 2rem;
+    display: flex;
+    flex-direction: column;
 }
 
 /*Links*/
 .footer-links {
+    width: 100%;
     display: flex;
+    flex-direction: row;
     justify-content: left; 
-    flex-wrap: wrap; 
-    gap: 1rem; 
-    margin-bottom: 1rem; 
+    flex-wrap: wrap;
+    gap: 15rem; 
+    margin-bottom: 2rem; 
+    margin-top: 2rem;
+}
+
+.footer-links2 {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: left; 
+    flex-wrap: wrap;
+    gap: 15rem; 
+    margin-bottom: 2rem; 
     margin-top: 1rem;
 }
 
 /*Customização links*/
-.footer-links a {
-    color: #414141; 
+.footer-links a, 
+.footer-links2 a{
+    color: #4F4F4F; 
     text-decoration: none;
-    font-size: 0.9rem;
+    font-size: 1rem;
+    text-decoration: underline;
 }
 
 /*Sublinhado com o mouse*/
@@ -191,6 +222,6 @@ footer {
 /*Português*/
 .language {
     margin-top: 0.5rem;
-    font-size: 0.9rem;
+    font-size: 1.0rem;
     color: #fff;
 }
