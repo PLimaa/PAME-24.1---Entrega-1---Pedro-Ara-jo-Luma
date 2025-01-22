@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Netfluxo</title>
-    <link rel="stylesheet" href="style.css">
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Netfluxo</title>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="style.css">
+    </head>
 <body>
     <div class="background"></div>
     <div class="overlay">
@@ -19,9 +20,9 @@
             <form>
                 <input type="email" placeholder="Email ou número de celular" required>
                 <input type="password" placeholder="Senha" required>
-                <button type="submit">Entrar</button>
+                <button class="login-button" type="submit">Entrar</button>
                 <div class="divider">OU</div>
-                <a href="#" class="access-code">Usar um código de acesso</a>
+                <button class="codigo-button" type="button">Usar um código de acesso</button>    
                 <a href="#" class="forgot-password">Esqueceu a senha?</a>
                 <div class="options">
                     <label>
@@ -36,6 +37,7 @@
         </div>
     </div>
     <footer>
+        <p>Dúvidas? Ligue 0000 000 0000</p>
         <div class="footer-links">
             <a href="#">Perguntas frequentes</a>
             <a href="#">Central de ajuda</a>
@@ -44,7 +46,6 @@
             <a href="#">Privacidade</a>
             <a href="#">Informações corporativas</a>
         </div>
-        <p>Dúvidas? Ligue 0000 000 0000</p>
         <div class="language">
             <span>Português</span>
         </div>

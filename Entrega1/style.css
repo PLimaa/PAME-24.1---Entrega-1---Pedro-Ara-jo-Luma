@@ -25,7 +25,7 @@ body {
 
 /* Overlay */
 .overlay {
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgba(0, 0, 0, 0.2);
     width: 100%;
     height: 100%;
     display: flex;
@@ -43,61 +43,89 @@ body {
 }
 
 .logo img {
-    width: 200px; /* Ajusta o tamanho da imagem, caso necessário */
+    width: 280px; /* Ajusta o tamanho da imagem, caso necessário */
     height: auto; /* Mantém a proporção da imagem */
 }
 
 
 .login-box {
     background-color: rgba(0, 0, 0, 0.8);
-    padding: 2rem;
-    border-radius: 8px;
+    padding: 5rem;
+    border-radius: 0px;
     width: 320px;
     text-align: center;
-    position: relative; /* Adicionando posicionamento relativo */
+    position: relative;
+    box-sizing: border-box;
+    display: flex; /* Flexbox para centralizar os itens */
+    flex-direction: column;
+    justify-content: left;
+    align-items: center;
 }
+
 
 .login-box h2 {
     font-size: 1.5rem;
     margin-bottom: 1rem;
     position: absolute; /* Permite o posicionamento absoluto dentro da caixa */
-    top: 0; /* Coloca o título no topo */
+    top: 0.7rem; /* Coloca o título no topo */
     left: 10px; /* Distância do título da lateral esquerda */
-    margin: 0; /* Remove qualquer margem */
+    margin: 20px; /* Remove qualquer margem */
 }
 
 .login-box input {
-    width: 100%;
-    padding: 0.8rem;
-    margin: 0.5rem 0;
-    border: none;
-    border-radius: 4px;
+    width: calc(100% + 8rem); /* Adiciona largura extra proporcional */
+    background-color: #232323;
+    color: #414141;
+    padding: 0.5rem;
+    margin: 0.6rem -4rem; /* Negativa a margem para expandir para os lados */
+    border: 2px solid #414141; /* Borda de 2px */
+    border-radius: 0px;
     font-size: 1rem;
+    display: block;
+    box-sizing: border-box;
 }
 
-.login-box button {
-    width: 100%;
-    padding: 0.8rem;
-    background-color: #ff6600;
+
+.login-button{
+    width: calc(100% + 8rem);
+    padding: 0.5rem;
+    background-color: #F58232;
     border: none;
-    border-radius: 4px;
+    border-radius: 0px;
     color: #fff;
     font-weight: bold;
     font-size: 1rem;
     cursor: pointer;
-    margin-top: 1rem;
+    margin: 0.6rem -5rem;
+    margin-top: 0.5rem;
 }
+
+.codigo-button{
+    width: calc(100% + 8rem);
+    padding: 0.5rem;
+    background-color: rgba(59, 59, 59, 0.65);
+    border: none;
+    border-radius: 0px;
+    color: #fff;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    margin: 0.6rem -5rem;
+    margin-top: 0.1rem;
+
+}
+
 
 .divider {
-    margin: 1rem 0;
-    color: #aaa;
+    margin: 0.5rem 0;
+    color: #414137;
     font-size: 0.9rem;
 }
 
-.access-code,
+
 .forgot-password {
     color: #fff;
-    font-size: 0.9rem;
+    font-size: 1rem;
     display: block;
     margin: 0.5rem 0;
     text-decoration: none;
@@ -109,37 +137,47 @@ body {
 }
 
 .options {
-    margin: 1rem 0;
-    font-size: 0.8rem;
+    text-align: left; /* Alinha o conteúdo à esquerda */
+    width: 100%; /* Garante que ocupe a largura total */
 }
+
 
 .signup {
     margin-top: 1rem;
+    color: #414141;
     font-size: 0.9rem;
+    text-align: center; /* Garante que o texto e o link fiquem à esquerda */
+    width: 100%;
 }
 
 .signup a {
-    color: #ff6600;
+    color: #aaa;
+    font-weight: bold;
     text-decoration: none;
 }
 
 /* Footer */
 footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 1.0);
     color: #aaa;
-    text-align: center;
-    padding: 1rem;
+    text-align: left; /* Alinhamento central */
+    padding: 2rem 2rem; /* Espaçamento superior e inferior maior */
     font-size: 0.8rem;
 }
 
+.footer-links {
+    display: flex;
+    justify-content: left; /* Centraliza os links */
+    flex-wrap: wrap; /* Permite que os links quebrem para a próxima linha se necessário */
+    gap: 1rem; /* Espaço entre os links */
+    margin-bottom: 1rem; /* Espaçamento inferior */
+    margin-top: 1rem;
+}
+
 .footer-links a {
-    color: #aaa;
+    color: #414141; /* Mantém o mesmo tom de cinza */
     text-decoration: none;
-    margin: 0 0.5rem;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
 }
 
 .footer-links a:hover {
