@@ -141,6 +141,7 @@ body {
 .codigo-button:hover,
 .esqueceu-senha:hover {
     text-decoration: underline;
+    color: aqua;
 }
 
 /*Customização Lembre-se de Mim*/
