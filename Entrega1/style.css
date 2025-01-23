@@ -6,7 +6,7 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
+    font-family:'Roboto', Arial, sans-serif;
     height: 100vh;
     color: #fff;
 }
@@ -60,8 +60,8 @@ body {
     box-sizing: border-box;
     display: flex; 
     flex-direction: column;
-    justify-content: left;
-    align-items: center;
+    justify-content: center;
+    align-items: flex-start;
 }
 
 /*Inserção do Entrar*/
@@ -76,7 +76,7 @@ body {
 
 /*Customização inputs da caixa de login*/
 .caixa-login input {
-    width: calc(100% + 8rem); 
+    width: calc(114% + 8rem); 
     background-color: #232323;
     color: #4F4F4F;
     padding: 0.5rem;
@@ -90,7 +90,7 @@ body {
 
 /*Customização Botão Entrar*/
 .login-button{
-    width: calc(100% + 8rem);
+    width: calc(114% + 8rem);
     padding: 0.5rem;
     background-color: #F58232;
     border: none;
@@ -99,13 +99,13 @@ body {
     font-weight: bold;
     font-size: 1rem;
     cursor: pointer;
-    margin: 0.6rem -5rem;
+    margin: 0.6rem -4rem;
     margin-top: 0.5rem;
 }
 
 
 .codigo-button{
-    width: calc(100% + 8rem);
+    width: calc(114% + 8rem);
     padding: 0.5rem;
     background-color: rgba(59, 59, 59, 0.65);
     border: none;
@@ -114,7 +114,7 @@ body {
     font-weight: bold;
     font-size: 1rem;
     cursor: pointer;
-    margin: 0.6rem -5rem;
+    margin: 0.6rem -4rem;
     margin-top: 0.1rem;
 
 }
@@ -124,6 +124,7 @@ body {
     margin: 0.5rem 0;
     color: #414137;
     font-size: 0.9rem;
+    width: 115%;
 }
 
 /*Inserção esqueceu senha*/
@@ -133,6 +134,7 @@ body {
     display: block;
     margin: 0.5rem 0;
     text-decoration: none;
+    width: 115%;
 }
 
 /*Sublinhado quando passa o mouse*/
@@ -141,16 +143,35 @@ body {
     text-decoration: underline;
 }
 
-.options{
-    margin-top: 1rem;
+/*Customização Lembre-se de Mim*/
+.lembrar{
+    margin-top: 2rem;
     font-size: 1rem;
+    position: absolute;
+    bottom: 45px; 
+    left: 20px;
     text-align: left;
-    color: #aaa;
-    width: 100%;
+    color: #ffffff;
+    width: 47%;
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 4%;
+
+}
+
+/*Ajuste para a caixinha ficar do lado do texto*/
+.lembrar label {
+    white-space: nowrap; 
+    overflow: visible; 
+    text-align: left; 
 }
 
 /*Assine agora*/
 .signup {
+    position: absolute;
+    bottom: 17px; 
+    left: 20px; 
     margin-top: 1rem;
     color: #4F4F4F;
     font-size: 0.9rem;
@@ -167,7 +188,7 @@ body {
 
 /*Link*/
 .signup a {
-    color: #aaa;
+    color: #ffffff;
     font-weight: bold;
     text-decoration: none;
 }
@@ -182,7 +203,7 @@ footer {
     flex-direction: column;
 }
 
-/*Links*/
+/*Primeiro grupo de Links*/
 .footer-links {
     width: 100%;
     display: flex;
@@ -190,19 +211,20 @@ footer {
     justify-content: left; 
     flex-wrap: wrap;
     gap: 15rem; 
-    margin-bottom: 2rem; 
+    margin-bottom: 2; 
     margin-top: 2rem;
 }
 
+/*Segundo grupo de Links*/
 .footer-links2 {
     width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: left; 
     flex-wrap: wrap;
-    gap: 15rem; 
+    gap: 19.3rem; 
     margin-bottom: 2rem; 
-    margin-top: 1rem;
+    margin-top: 2rem;
 }
 
 /*Customização links*/
@@ -224,4 +246,18 @@ footer {
     margin-top: 0.5rem;
     font-size: 1.0rem;
     color: #fff;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 7%;
+}
+
+/*Setinha do lado de Português*/
+.setinha{
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    display: flex;
+    height: 11px;
+    width: 10px;
+    transform: rotate(45deg);
 }
