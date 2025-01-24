@@ -1,1 +1,1 @@
-Códigos desenvolvidos para a Entrega 1 do PAME 24.1
+Códigos desenvolvidos para as Entregas do PAME 24.1
