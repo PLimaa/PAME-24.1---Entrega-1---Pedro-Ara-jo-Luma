@@ -81,6 +81,7 @@ class Sistema {
         let reserva = this.reservas.find((numero) => numero.id == id)
         let status = requisicao.question("Qual seria o novo status da reserva? (pendente, adiada, realizada, cancelada) \n")
         reserva.status = status
+        console.log("Status da reserva alterado.")
     }
 
     adicionarQuarto(){
@@ -91,10 +92,11 @@ class Sistema {
         let descricao = requisicao.question("Qual será a descrição do quarto?\n")
         let quarto = new Quartos(camas,preco_noite,disponivel,nome,descricao)
         this.quartos.push(quarto)
+        console.log("Quarto adicionado com sucesso!")
     }
 
     fazerReserva(){
-        let id = this.reservas.length() + 1
+        let id = this.reservas.length + 1
         let idCliente = this.usuarioLogado.dados.id
         let status = "pendente"
         let dia_checkin = requisicao.question("Qual será o dia de checkin?\n")
@@ -107,6 +109,7 @@ class Sistema {
         let data_checkout = `${dia_checkout}/${mes_checkout}/${ano_checkout}`
         let reserva = new Reserva (id,idCliente,status,data_checkin,data_checkout)
         this.reservas.push(reserva)
+        console.log("Reserva feita com sucesso!")
 
     }
     
@@ -114,11 +117,12 @@ class Sistema {
         let idCliente = this.usuarioLogado.dados.idCliente
         let reserva = this.reservas.find((r) => r.idCliente == idCliente)
         reserva.status = "cancelada"
+        console.log("Reserva cancelada!")
     }
 
     verReservas(){
         let reservas = []
-        idCliente = this.usuarioLogado.dados.idCliente
+        let idCliente = this.usuarioLogado.dados.idCliente
         for (let i = 0; i<this.reservas.length;i++){
             if (this.reservas[i].idCliente == idCliente){
                 reservas.push(this.reservas[i])
@@ -191,32 +195,40 @@ function controle(sessao,n){
     if(n =="1"){
         sessao.fazerLogin()
         if (sessao.usuarioLogado.tipo == "cliente"){
-            console.log(`Bem-vindo ${sessao.usuarioLogado.dados.nomeUsuario}, gostaria de realizar qual ação?`)
-            console.log("1. Ver meus Dados")
-            console.log("2. Ver Lista de Quartos")
-            console.log("3. Fazer reserva")
-            console.log("4. Cancelar reserva")
-            console.log("5. Ver minhas reservas")
-            x = requisicao.question()
-            switch(x){
-                case 1:
-                    sessao.verMeusDados()
-                    break
-                case 2:
-                    sessao.verListaQuartos()
-                    break
-                case 3:
-                    sessao.fazerReserva()
-                    break
-                case 4:
-                    sessao.cancelarReserva()
-                    break
-                case 5:
-                    sessao.verReservas()
-                    break
+            let continuar = true
+            while(continuar){
+                console.log(`Bem-vindo ${sessao.usuarioLogado.dados.nome}, gostaria de realizar qual ação?`)
+                console.log("1. Ver meus Dados")
+                console.log("2. Ver Lista de Quartos")
+                console.log("3. Fazer reserva")
+                console.log("4. Cancelar reserva")
+                console.log("5. Ver minhas reservas")
+                console.log("6. Deslogar")
+                x = requisicao.question()
+                switch(x){
+                    case "1":
+                        console.log(sessao.verMeusDados())
+                        break
+                    case "2":
+                        console.log(sessao.verListaQuartos())
+                        break
+                    case "3":
+                        sessao.fazerReserva()
+                        break
+                    case "4":
+                        sessao.cancelarReserva()
+                        break
+                    case "5":
+                        console.log(sessao.verReservas())
+                        break
+                    case "6":
+                        continuar=false
+                        sessao.usuarioLogado = null
+                        break
 
             }
         }
+    }
 
         else if (sessao.usuarioLogado.tipo == "funcionario"){
             console.log(`Bem-vindo ${sessao.usuarioLogado.dados.nomeUsuario}, gostaria de realizar qual ação?`)
@@ -228,22 +240,22 @@ function controle(sessao,n){
             console.log("6. Adicionar Quarto")
             x = requisicao.question()
             switch(x){
-                case 1:
-                    sessao.verMeusDados()
+                case "1":
+                    console.log(sessao.verMeusDados())
                     break
-                case 2:
-                    sessao.VerListaReservas()
+                case "2":
+                    console.log(sessao.VerListaReservas())
                     break
-                case 3:
-                    sessao.verListaQuartos()
+                case "3":
+                    console.log(sessao.verListaQuartos())
                     break
-                case 4:
-                    sessao.verListaClientes()
+                case "4":
+                    console.log(sessao.verListaClientes())
                     break
-                case 5:
+                case "5":
                     sessao.mudarStatusReserva()
                     break
-                case 6:
+                case "6":
                     sessao.adicionarQuarto()
                     break
 
