@@ -104,7 +104,7 @@ class Sistema {
         let preco_noite = requisicao.question("Quak sera o preco por noite do quarto?\n")
         let disponivel = requisicao.question("Qual sera a disponibilidade do quarto?\n")
         let nome = requisicao.question("Qual sera o nome do quarto?\n")
-        let descricao = requisicao.question("Qual sera a descrição do quarto?\n")
+        let descricao = requisicao.question("Qual sera a descricao do quarto?\n")
         let quarto = new Quartos(camas,preco_noite,disponivel,nome,descricao)
         this.quartos.push(quarto)
         console.log("Quarto adicionado com sucesso!")
@@ -171,13 +171,112 @@ class Sistema {
         }
         return avaliacoes
     }
+    
+//metodo para realizar a modificacao de dados
+//para cliente apenas passivel de alteracao email e senha. 
+//para funcionario passivel de alteracao nome de usuario, email e senha
+//id,nome,cpf e data de nascimento nao possuem a necessidade de possibilitar alteracao
+    modificarDados(){
+        if(this.usuarioLogado.tipo == "cliente"){
+            console.log("Qual tipo de dado gostaria de realizar uma alteração? (Insira o numero por favor)")
+            console.log("1. Email")
+            console.log("2. Senha")
+            const n = requisicao.question()
+            if(n==1){
+                let newEmail = requisicao.question("Por favor digite o novo email a ser inserido\n")
+                this.usuarioLogado.dados.email = newEmail
+                console.log("Email alterado com sucesso!")
+            }
+            
+            else if(n==2){
+                let newSenha = requisicao.question("Por favor digite a nova senha a ser inserida\n")
+                this.usuarioLogado.dados.senha = newSenha
+                console.log("Senha alterada com sucesso!")
+            }
+        }
+        if(this.usuarioLogado.tipo == "funcionario"){
+            console.log("Qual tipo de dado gostaria de realizar uma alteração? (Insira o numero por favor)")
+            console.log("1. Nome de Usuario")
+            console.log("2. Email")
+            console.log("3. Senha")
+            const n = requisicao.question()
+            if(n==2){
+                let newEmail = requisicao.question("Por favor digite o novo email a ser inserido\n")
+                this.usuarioLogado.dados.email = newEmail
+                console.log("Email alterado com sucesso!")
+            }
+            
+            else if(n==3){
+                let newSenha = requisicao.question("Por favor digite a nova senha a ser inserida\n")
+                this.usuarioLogado.dados.senha = newSenha
+                console.log("Senha alterada com sucesso!")
+            }
+
+            else if(n==1){
+                let newName = requisicao.question("Por favor digite o novo Nome de Usuario a ser inserido\n")
+                this.usuarioLogado.dados.nomeUsuario = newName
+                console.log("Nome de Usuario alterado com sucesso!")
+            }
+
+        }
+    }
+
+//metodo destinado a funcionarios. 
+//Permite editar os dados de um quarto especifico, utilizando o nome como forma de procura ja que tem que ser unico
+    editarQuarto(){
+        let nomeQuarto = requisicao.question("Por favor insira o nome do quarto a ser editado\n")
+        let quarto = this.quartos.find((room) => room.nome == nomeQuarto)
+        console.log("Qual tipo de dado gostaria de realizar uma alteração? (Insira o numero por favor)")
+        console.log("1. Quantidade de camas")
+        console.log("2. Preco por noite")
+        console.log("3. Disponibilidade")
+        console.log("4. Nome")
+        console.log("5. Descricao")
+        const n = requisicao.question()
+        if(n==1){
+            let newQuantidadeCamas = requisicao.question("Por favor digite a nova quantidade de camas a ser inserida\n")
+            quarto.camas = newQuantidadeCamas
+            console.log("Quantidade de camas alterada com sucesso!")
+        }
+        
+        else if(n==2){
+            let newPreco = requisicao.question("Por favor digite o novo novo valor a ser inserido\n")
+            quarto.preco_noite = newPreco
+            console.log("Preco por noite alterado com sucesso!")
+        }
+
+        else if(n==3){
+            let newDisponibilidade = requisicao.question("Por favor digite a nova Disponibilidade a ser inserida\n")
+            quarto.disponivel = newDisponibilidade
+            console.log("Disponibilidade alterada com sucesso!")
+        }
+
+        else if(n==4){
+            let newName = requisicao.question("Por favor digite o novo Nome do quarto a ser inserido\n")
+            quarto.nome = newName
+            console.log("Nome do quarto alterado com sucesso!")
+        }
+
+        else if(n==5){
+            let newDescricao = requisicao.question("Por favor digite a nova Descricao a ser inserida\n")
+            quarto.descricao = newDescricao
+            console.log("Descricao alterada com sucesso!")
+        }
+
+    }
+
+//metodo destinado a funcionarios. Permite a exclusao de um quarto a partir do seu nome
+    excluirQuarto(){
+        let nomeQuarto = requisicao.question("Por favor insira o nome do quarto a ser excluido\n")
+        this.quartos = this.quartos.filter((quarto) => quarto.nome != nomeQuarto)
+        console.log("Quarto excluido com sucesso!")
+        
+    }
 
 // metodo para encerrar a sessao no programa
     sairPrograma(){
         console.log("Saindo do programa...")
     }
-
-
 }
 
 //classe Reserva. Define os atributos que caracterizam uma reserva
@@ -258,7 +357,8 @@ function controle(sessao,n){
                 console.log("4. Cancelar reserva")
                 console.log("5. Ver minhas reservas")
                 console.log("6. Avaliar estadia")
-                console.log("7. Deslogar")
+                console.log("7. Modificar meus dados")
+                console.log("8. Deslogar")
                 x = requisicao.question()
                 switch(x){
                     case "1":
@@ -280,9 +380,14 @@ function controle(sessao,n){
                         sessao.avaliarEstadia()
                         break
                     case "7":
+                        sessao.modificarDados()
+                        break
+                    case "8":
                         continuar=false
                         sessao.usuarioLogado = null
                         break
+                    default:
+                        console.log("Opcao invalida. Tente novamente.")
 
             }
         }
@@ -299,7 +404,10 @@ function controle(sessao,n){
             console.log("5. Mudar status da reserva (pendente, adiada, realizada, cancelada)")
             console.log("6. Adicionar Quarto")
             console.log("7. Visualizar Avaliacoes")
-            console.log("8. Deslogar")
+            console.log("8. Modificar meus dados")
+            console.log("9. Editar quarto")
+            console.log("10. Excluir quarto")
+            console.log("11. Deslogar")
             x = requisicao.question()
             switch(x){
                 case "1":
@@ -324,9 +432,20 @@ function controle(sessao,n){
                     console.log(sessao.visualizarAvaliacoes())
                     break
                 case "8":
+                    sessao.modificarDados()
+                    break
+                case "9":
+                    sessao.editarQuarto()
+                    break
+                case "10":
+                    sessao.excluirQuarto()
+                    break
+                case "11":
                     continuar=false
                     sessao.usuarioLogado=null
                     break
+                default:
+                    console.log("Opcao invalida. Tente novamente.")
 
             }
 
@@ -341,6 +460,9 @@ function controle(sessao,n){
     }
     else if(n == "4"){ //usuario decide sair do programa
         sessao.sairPrograma()
+    }
+    else{
+        console.log("Opção inválida. Tente Novamente")
     }
 }
 

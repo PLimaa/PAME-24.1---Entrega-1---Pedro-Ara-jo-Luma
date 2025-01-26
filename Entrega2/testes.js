@@ -20,3 +20,10 @@ for(let i=0;i<a;i++){
 }
 
 console.log(lista)
+
+const array = [1, 2, 3, 4, 5];
+
+// Remove o primeiro item do array
+array.splice(2, 2);
+
+console.log(array); // Resultado: [2, 3, 4, 5]
