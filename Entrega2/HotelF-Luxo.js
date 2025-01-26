@@ -72,30 +72,50 @@ class Sistema {
 
 // metodo para visualizacao dos dados do usuario
     verMeusDados(){
-        return this.usuarioLogado.dados
+        console.log(this.usuarioLogado.dados)
     }
 
-// metodo para visualizacao da lista de reservas
+// metodo para visualizacao da lista de reservas. Exclusivo para funcionarios
     VerListaReservas(){
-        return this.reservas
+        if(this.reservas.length == 0){
+            console.log("No momento não há nenhuma reserva realizada.")
+        }
+        else {
+            console.log(this.reservas)
+        }
     }
-// metodo para visualizacao da lista de quartos
+// metodo para visualizacao da lista de quartos.
     verListaQuartos(){
-        return this.quartos
+        if(this.quartos.length == 0){
+            console.log("No momento não há nenhum quarto adicionado.")
+        }
+        else {
+            console.log(this.quartos)
+        }
     }
 
-// metodo para visualizacao da lista de clientes
+// metodo para visualizacao da lista de clientes. Exclusivo para funcionarios
     verListaClientes(){
-        return this.clientes
+        if(this.clientes.length == 0){
+            console.log("No momento não há nenhum cliente cadastrado.")
+        }
+        else {
+            console.log(this.clientes)
+        }
     }
 
 // metodo destinado a funcionarios. Altera status da reserva a partir do id da mesma, id essa única.
     mudarStatusReserva(){
+        if(this.reservas.length==0){
+            console.log("No momento não há nenhuma reserva realizada.")
+        }
+        else{
         let id = requisicao.question("Qual o id da Reserva que gostaria de alterar o status?\n")
         let reserva = this.reservas.find((numero) => numero.id == id)
         let status = requisicao.question("Qual seria o novo status da reserva? (pendente, adiada, realizada, cancelada) \n")
         reserva.status = status
         console.log("Status da reserva alterado.")
+        }
     }
 
 // metodo destinado a funcionarios. Recolhe os dados e insere um novo quarto na lista de quartos. 
@@ -133,10 +153,20 @@ class Sistema {
 
 // metodo destinado a clientes. Procura a reserva feita por um cliente a partir de sua id e cancela tal reserva
     cancelarReserva(){
-        let idCliente = this.usuarioLogado.dados.id
-        let reserva = this.reservas.find((r) => r.idCliente == idCliente)
-        reserva.status = "cancelada"
-        console.log("Reserva cancelada!")
+        if(this.reservas.length==0){
+            console.log("Nenhuma reserva adicionada.")
+        }
+        else{
+            let idCliente = this.usuarioLogado.dados.id
+            let reserva = this.reservas.find((r) => r.idCliente == idCliente)
+            if(reserva){
+                reserva.status = "cancelada"
+                console.log("Reserva cancelada!")
+            }
+            else{
+                console.log("Nenhuma reserva encontrada com a id fornecida.")
+            }
+        }
     }
 
 // metodo destinado a clientes. Procura reservas feitas por um cliente a partir de sua id e as retorna para o usuario
@@ -148,16 +178,26 @@ class Sistema {
                 reservas.push(this.reservas[i])
             }
         }
-        return reservas
+        if(reservas.length==0){
+            console.log("Nenhuma reserva encontrada.")
+        }
+        else{
+            console.log(reservas)
+        }
     }
 
 //metodo destinado a clientes. Permite o cliente avliar a estadia atraves da sua reserva, avaliando de zero a dez
     avaliarEstadia(){
         let idReserva = requisicao.question("Qual o id da reserva utilizada em sua estadia?\n")
-        let avaliacao = requisicao.question("De zero a dez, sendo dez Perfeita e zero Insatisfatorio, como voce avaliaria sua estadia conosco?\n")
         let reserva = this.reservas.find((r) => r.id == idReserva)
-        reserva.avaliacao = avaliacao
-        console.log("Obrigado pela atencao e por sua estadia conosco. Volte sempre!")
+        if(reserva){
+            let avaliacao = requisicao.question("De zero a dez, sendo dez Perfeita e zero Insatisfatorio, como voce avaliaria sua estadia conosco?\n")
+            reserva.avaliacao = avaliacao
+            console.log("Obrigado pela atencao e por sua estadia conosco. Volte sempre!")
+        }
+        else{
+            console.log("Nenhuma reserva encontrada.")
+        }
     }
 
 //metodo destinado a funcionarios. Permite o funcionario visualizar as avaliacoes das reservas realizadas
@@ -169,7 +209,12 @@ class Sistema {
             avaliacoes.push({idReserva: idReserva,avaliacao : avaliacao})
 
         }
-        return avaliacoes
+        if(avaliacoes.length==0){
+            console.log("No nomento nenhuma avaliacao fora realizada.")
+        }
+        else{
+            console.log(avaliacoes)
+        }
     }
     
 //metodo para realizar a modificacao de dados
@@ -224,52 +269,71 @@ class Sistema {
 //metodo destinado a funcionarios. 
 //Permite editar os dados de um quarto especifico, utilizando o nome como forma de procura ja que tem que ser unico
     editarQuarto(){
-        let nomeQuarto = requisicao.question("Por favor insira o nome do quarto a ser editado\n")
-        let quarto = this.quartos.find((room) => room.nome == nomeQuarto)
-        console.log("Qual tipo de dado gostaria de realizar uma alteração? (Insira o numero por favor)")
-        console.log("1. Quantidade de camas")
-        console.log("2. Preco por noite")
-        console.log("3. Disponibilidade")
-        console.log("4. Nome")
-        console.log("5. Descricao")
-        const n = requisicao.question()
-        if(n==1){
-            let newQuantidadeCamas = requisicao.question("Por favor digite a nova quantidade de camas a ser inserida\n")
-            quarto.camas = newQuantidadeCamas
-            console.log("Quantidade de camas alterada com sucesso!")
+        if(this.quartos.length==0){
+            console.log("Nnehum quarto adicionado no momento.")
         }
+        else{
+            let nomeQuarto = requisicao.question("Por favor insira o nome do quarto a ser editado\n")
+            let quarto = this.quartos.find((room) => room.nome == nomeQuarto)
+            if(quarto){
+                console.log("Qual tipo de dado gostaria de realizar uma alteração? (Insira o numero por favor)")
+                console.log("1. Quantidade de camas")
+                console.log("2. Preco por noite")
+                console.log("3. Disponibilidade")
+                console.log("4. Nome")
+                console.log("5. Descricao")
+                const n = requisicao.question()
+                if(n==1){
+                    let newQuantidadeCamas = requisicao.question("Por favor digite a nova quantidade de camas a ser inserida\n")
+                    quarto.camas = newQuantidadeCamas
+                    console.log("Quantidade de camas alterada com sucesso!")
+                }
         
-        else if(n==2){
-            let newPreco = requisicao.question("Por favor digite o novo novo valor a ser inserido\n")
-            quarto.preco_noite = newPreco
-            console.log("Preco por noite alterado com sucesso!")
-        }
+                else if(n==2){
+                    let newPreco = requisicao.question("Por favor digite o novo novo valor a ser inserido\n")
+                    quarto.preco_noite = newPreco
+                    console.log("Preco por noite alterado com sucesso!")
+                }
 
-        else if(n==3){
-            let newDisponibilidade = requisicao.question("Por favor digite a nova Disponibilidade a ser inserida\n")
-            quarto.disponivel = newDisponibilidade
-            console.log("Disponibilidade alterada com sucesso!")
-        }
+                else if(n==3){
+                    let newDisponibilidade = requisicao.question("Por favor digite a nova Disponibilidade a ser inserida\n")
+                    quarto.disponivel = newDisponibilidade
+                 console.log("Disponibilidade alterada com sucesso!")
+                }
 
-        else if(n==4){
-            let newName = requisicao.question("Por favor digite o novo Nome do quarto a ser inserido\n")
-            quarto.nome = newName
-            console.log("Nome do quarto alterado com sucesso!")
-        }
+                else if(n==4){
+                    let newName = requisicao.question("Por favor digite o novo Nome do quarto a ser inserido\n")
+                    quarto.nome = newName
+                    console.log("Nome do quarto alterado com sucesso!")
+                }
 
-        else if(n==5){
-            let newDescricao = requisicao.question("Por favor digite a nova Descricao a ser inserida\n")
-            quarto.descricao = newDescricao
-            console.log("Descricao alterada com sucesso!")
+                else if(n==5){
+                    let newDescricao = requisicao.question("Por favor digite a nova Descricao a ser inserida\n")
+                    quarto.descricao = newDescricao
+                    console.log("Descricao alterada com sucesso!")
+                }
+            }
+            else{
+            console.log("Nenhum quarto com o nome inserido adicionado no momento.")
+            }
         }
-
     }
-
 //metodo destinado a funcionarios. Permite a exclusao de um quarto a partir do seu nome
     excluirQuarto(){
-        let nomeQuarto = requisicao.question("Por favor insira o nome do quarto a ser excluido\n")
-        this.quartos = this.quartos.filter((quarto) => quarto.nome != nomeQuarto)
-        console.log("Quarto excluido com sucesso!")
+        if(this.quartos.length==0){
+            console.log("Nenhum quarto adicionado no momento.")
+        }
+        else{
+            let nomeQuarto = requisicao.question("Por favor insira o nome do quarto a ser excluido\n")
+            let nome = this.quartos.find((room) => room.nome == nomeQuarto)
+            if(nome){
+                this.quartos = this.quartos.filter((quarto) => quarto.nome != nomeQuarto)
+                console.log("Quarto excluido com sucesso!")
+            }
+            else{
+                console.log("Nenhum quarto com o nome inserido adicionado no momento.")
+            }
+        }
         
     }
 
@@ -277,7 +341,9 @@ class Sistema {
     sairPrograma(){
         console.log("Saindo do programa...")
     }
+
 }
+
 
 //classe Reserva. Define os atributos que caracterizam uma reserva
 class Reserva {
@@ -362,10 +428,10 @@ function controle(sessao,n){
                 x = requisicao.question()
                 switch(x){
                     case "1":
-                        console.log(sessao.verMeusDados())
+                        sessao.verMeusDados()
                         break
                     case "2":
-                        console.log(sessao.verListaQuartos())
+                        sessao.verListaQuartos()
                         break
                     case "3":
                         sessao.fazerReserva()
@@ -374,7 +440,7 @@ function controle(sessao,n){
                         sessao.cancelarReserva()
                         break
                     case "5":
-                        console.log(sessao.verReservas())
+                        sessao.verReservas()
                         break
                     case "6":
                         sessao.avaliarEstadia()
@@ -411,16 +477,16 @@ function controle(sessao,n){
             x = requisicao.question()
             switch(x){
                 case "1":
-                    console.log(sessao.verMeusDados())
+                    sessao.verMeusDados()
                     break
                 case "2":
-                    console.log(sessao.VerListaReservas())
+                    sessao.VerListaReservas()
                     break
                 case "3":
-                    console.log(sessao.verListaQuartos())
+                    sessao.verListaQuartos()
                     break
                 case "4":
-                    console.log(sessao.verListaClientes())
+                    sessao.verListaClientes()
                     break
                 case "5":
                     sessao.mudarStatusReserva()
@@ -429,7 +495,7 @@ function controle(sessao,n){
                     sessao.adicionarQuarto()
                     break
                 case "7":
-                    console.log(sessao.visualizarAvaliacoes())
+                    sessao.visualizarAvaliacoes()
                     break
                 case "8":
                     sessao.modificarDados()
