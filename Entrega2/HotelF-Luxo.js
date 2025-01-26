@@ -1,6 +1,8 @@
+//------------------------//
 // Sistema Hotel F - Luxo //
+//------------------------//
 
-var requisicao = require('readline-sync')
+var requisicao = require('readline-sync') // pacote para permitir os inputs para o usuario
 
 // classe Sistema. engloba os metodos de interacao para usuarios logados.
 // possui atributos de controle, listas de clientes,funcionarios,reservas e quartos
@@ -17,9 +19,9 @@ class Sistema {
 //metodo para realizar o login, procura o email e senha tanto na lista de funcionarios, quanto na de clientes, definindo seu tipo de acordo.
 //usuarioLogado = {tipo:"cliente ou funcionario", dados: dados do usuario}
     fazerLogin(){
-        console.log("Bem-Vindo ao login, por favor, insira as informacoes abaixo")
-        let email = requisicao.question("Insira o email da conta por favor\n")
-        let senha = requisicao.question("Insira a senha por favor\n")
+        console.log("Bem-Vindo ao login, por favor, insira as informacoes abaixo.")
+        let email = requisicao.question("Insira o email da conta por favor.\n")
+        let senha = requisicao.question("Insira a senha por favor.\n")
         const cliente = this.clientes.find((client) => client.email == email && client.senha == senha)  //procura email e senha na lista de clientes
         if(cliente){ //achou email e senha correspondentes a um cliente, login bem sucedido
             this.usuarioLogado = {tipo: "cliente", dados: cliente} //dados = dados do cliente que possui email e senha achados no find
@@ -40,15 +42,35 @@ class Sistema {
 
 //metodo para realizar cadastro, recolhe os dados e insere na lista de clientes ou funcionarios, a depender da escolha do usuario.
     fazerCadastroCliente(){ //cadastro como cliente, serao recolhidos dados especificos para um cliente
-        console.log("Bem-Vindo ao Cadastro como Cliente, por favor, insira as informacoes abaixo")
+        console.log("Bem-Vindo ao Cadastro como Cliente, por favor, insira as informacoes abaixo.")
         let id = this.clientes.length + 1 //cria sempre uma nova id unica, ja que a lenght de this.clientes é o numero de clientes, logo a nova id sera a id do ultimo cliente (==lenght) +1.
-        let nome = requisicao.question("Qual o seu nome?\n")
-        let dia = requisicao.question("Qual o seu dia de nascimento?\n")
-        let mes = requisicao.question("Qual o seu mes de nascimento?\n")
-        let ano = requisicao.question("Qual o seu ano de nascimento?\n")
-        let cpf = requisicao.question("Qual o seu cpf?\n")
-        let email = requisicao.question("Qual o seu e-mail?\n")
-        let senha = requisicao.question("Por favor insira a senha\n")
+        let nome = requisicao.question("Por favor, insira o seu nome.\n")
+        let dia = requisicao.question("Por favor, insira o seu dia de nascimento.\n")
+        let mes = requisicao.question("Por favor, insira o seu mes de nascimento.\n")
+        let ano = requisicao.question("Por favor, insira o seu ano de nascimento.\n")
+        let cpf = ""
+        let verificaCPF=true
+        while(verificaCPF){ //verifica se o CPF esta correto, permitindo inserir novamente em caso de erro
+            cpf = requisicao.question("Por favor, insira o seu CPF (Apenas numeros por favor).\n")
+            if(cpf.length==11){
+                verificaCPF = false   
+            }
+            else{
+                console.log("CPF invalido. Tente novamente.")
+            }
+        }
+        let email = "" 
+        let verificaEmail= true
+        while(verificaEmail){ //verifica se o email esta correto, permitindo inserir novamente em caso de erro
+            email = requisicao.question("Por favor, insira o E-mail a ser registrado.\n")
+            if(email.includes("@")){
+                verificaEmail= false
+            }
+            else{
+                console.log("E-mail invalido. Tente novamente.")
+            }
+        }       
+        let senha = requisicao.question("Por favor, insira a senha.\n")
         let data = `${dia}/${mes}/${ano}`
         let novoCliente = new Cliente(id,nome,data,cpf,email,senha)
         this.clientes.push(novoCliente) // insere o novo cliente na lista de clientes
@@ -58,12 +80,32 @@ class Sistema {
     }
 
     fazerCadastroFuncionario(){
-        console.log("Bem-Vindo ao Cadastro como Funcionario, por favor, insira as informacoes abaixo")
+        console.log("Bem-Vindo ao Cadastro como Funcionario, por favor, insira as informacoes abaixo.")
         let id = this.funcionarios.length + 1 //cria sempre uma nova id unica, ja que a lenght de this.funcionarios é o numero de funcionarios, logo a nova id sera a id do ultimo funcionario (==lenght) +1.
-        let usuario = requisicao.question("Qual sera o nome do Usuario?\n")
-        let cpf = requisicao.question("Qual o seu cpf?\n")
-        let email = requisicao.question("Qual o seu e-mail?\n")
-        let senha = requisicao.question("Por favor insira a senha\n")
+        let usuario = requisicao.question("Por favor, insira nome de Usuario a ser reegistrado.\n")
+        let cpf = ""
+        let verificaCPF=true
+        while(verificaCPF){ //verifica se o CPF esta correto, permitindo inserir novamente em caso de erro
+            cpf = requisicao.question("Por favor, insira o seu CCPF (Apenas numeros por favor)\n")
+            if(cpf.length==11){
+                verificaCPF = false   
+            }
+            else{
+                console.log("CPF invalido. Tente Novamente")
+            }
+        }
+        let email = "" 
+        let verificaEmail= true
+        while(verificaEmail){ //verifica se o email esta correto, permitindo inserir novamente em caso de erro
+            email = requisicao.question("Por favor, insira o E-mail a ser registrado.\n")
+            if(email.includes("@")){
+                verificaEmail= false
+            }
+            else{
+                console.log("E-mail invalido. Tente novamente")
+            }
+        }
+        let senha = requisicao.question("Por favor insira a senha.\n")
         let novoFuncionario = new Funcionário(id,usuario,cpf,email,senha)
         this.funcionarios.push(novoFuncionario) // insere o novo funcionario na lista de funcionarios
         console.log("Cadastro de funcionario realizado!")
@@ -110,10 +152,10 @@ class Sistema {
             console.log("No momento não há nenhuma reserva realizada.")
         }
         else{
-            let id = requisicao.question("Qual o id da Reserva que gostaria de alterar o status?\n")
+            let id = requisicao.question("Por favor, insira o id da reserva cujo status sera alterado.\n")
             let reserva = this.reservas.find((numero) => numero.id == id) //procura reserva com o id correspondente ao inserido pelo usuario
             if(reserva){//achou
-                let status = requisicao.question("Qual seria o novo status da reserva? (pendente, adiada, realizada, cancelada) \n")
+                let status = requisicao.question("Por favor, insira o novo status a ser definido. (pendente, adiada, realizada, cancelada) \n")
                 reserva.status = status
                 console.log("Status da reserva alterado.")
             }
@@ -125,11 +167,11 @@ class Sistema {
 
 // metodo destinado a funcionarios. Recolhe os dados e insere um novo quarto na lista de quartos. 
     adicionarQuarto(){
-        let camas = requisicao.question("Quantas camas tera o quarto?\n")
-        let preco_noite = requisicao.question("Quak sera o preco por noite do quarto?\n")
-        let disponivel = requisicao.question("Qual sera a disponibilidade do quarto?\n")
-        let nome = requisicao.question("Qual sera o nome do quarto?\n")
-        let descricao = requisicao.question("Qual sera a descricao do quarto?\n")
+        let camas = requisicao.question("Por favor, insira a quantidade de camas do quarto.\n")
+        let preco_noite = requisicao.question("Por favor, insira o preco por noite do quarto.\n")
+        let disponivel = requisicao.question("Por favor, insira a situacao de disponibilidade do quarto.\n")
+        let nome = requisicao.question("Por favor, insira o nome do quarto a ser registrado.\n")
+        let descricao = requisicao.question("Por favor, insira a descricao do quarto.\n")
         let quarto = new Quartos(camas,preco_noite,disponivel,nome,descricao)
         this.quartos.push(quarto) //adiciona o novo quarto na lista de quartos
         console.log("Quarto adicionado com sucesso!")
@@ -142,12 +184,12 @@ class Sistema {
         let id = this.reservas.length + 1 //cria sempre uma nova id unica, ja que a lenght de this.reservas é o numero de reservas, logo a nova id sera a id da ultima reserva (==lenght) +1.
         let idCliente = this.usuarioLogado.dados.id
         let status = "pendente"
-        let dia_checkin = requisicao.question("Qual sera o dia de checkin?\n")
-        let mes_checkin = requisicao.question("Qual sera o mes de checkin?\n")
-        let ano_checkin = requisicao.question("Qual sera o ano de checkin?\n")
-        let dia_checkout = requisicao.question("Qual sera o dia de checkout?\n")
-        let mes_checkout = requisicao.question("Qual sera o mes de checkout?\n")
-        let ano_checkout = requisicao.question("Qual sera o ano de checkout?\n")
+        let dia_checkin = requisicao.question("Por favor, insira o dia de checkin.\n")
+        let mes_checkin = requisicao.question("Por favor, insira o mes de checkin.\n")
+        let ano_checkin = requisicao.question("Por favor, insira o ano de checkin.\n")
+        let dia_checkout = requisicao.question("Por favor, insira o dia de checkout.\n")
+        let mes_checkout = requisicao.question("Por favor, insira o mes de checkout.\n")
+        let ano_checkout = requisicao.question("Por favor, insira o ano de checkout.\n")
         let avaliacao = "pendente"
         let data_checkin = `${dia_checkin}/${mes_checkin}/${ano_checkin}`
         let data_checkout = `${dia_checkout}/${mes_checkout}/${ano_checkout}`
@@ -194,7 +236,7 @@ class Sistema {
 
 //metodo destinado a clientes. Permite o cliente avaliar a estadia atraves da sua reserva, avaliando de zero a dez
     avaliarEstadia(){
-        let idReserva = requisicao.question("Qual o id da reserva utilizada em sua estadia?\n")
+        let idReserva = requisicao.question("Por favor, insira o id da reserva utilizada durante sua estadia.\n")
         let reserva = this.reservas.find((r) => r.id == idReserva) //procura a reserva a ser avaliada a partir da id da reserva fornecida pelo cliente
         if(reserva){ //achou
             let avaliacao = requisicao.question("De zero a dez, sendo dez Perfeita e zero Insatisfatorio, como voce avaliaria sua estadia conosco?\n")
@@ -234,13 +276,13 @@ class Sistema {
             console.log("2. Senha")
             const n = requisicao.question()
             if(n==1){
-                let newEmail = requisicao.question("Por favor digite o novo email a ser inserido\n")
+                let newEmail = requisicao.question("Por favor, digite o novo email a ser inserido.\n")
                 this.usuarioLogado.dados.email = newEmail
                 console.log("Email alterado com sucesso!")
             }
             
             else if(n==2){
-                let newSenha = requisicao.question("Por favor digite a nova senha a ser inserida\n")
+                let newSenha = requisicao.question("Por favor, digite a nova senha a ser inserida.\n")
                 this.usuarioLogado.dados.senha = newSenha
                 console.log("Senha alterada com sucesso!")
             }
@@ -252,19 +294,19 @@ class Sistema {
             console.log("3. Senha")
             const n = requisicao.question()
             if(n==2){
-                let newEmail = requisicao.question("Por favor digite o novo email a ser inserido\n")
+                let newEmail = requisicao.question("Por favor, digite o novo email a ser inserido.\n")
                 this.usuarioLogado.dados.email = newEmail
                 console.log("Email alterado com sucesso!")
             }
             
             else if(n==3){
-                let newSenha = requisicao.question("Por favor digite a nova senha a ser inserida\n")
+                let newSenha = requisicao.question("Por favor, digite a nova senha a ser inserida.\n")
                 this.usuarioLogado.dados.senha = newSenha
                 console.log("Senha alterada com sucesso!")
             }
 
             else if(n==1){
-                let newName = requisicao.question("Por favor digite o novo Nome de Usuario a ser inserido\n")
+                let newName = requisicao.question("Por favor, digite o novo Nome de Usuario a ser inserido.\n")
                 this.usuarioLogado.dados.nomeUsuario = newName
                 console.log("Nome de Usuario alterado com sucesso!")
             }
@@ -279,7 +321,7 @@ class Sistema {
             console.log("Nnehum quarto adicionado no momento.")
         }
         else{
-            let nomeQuarto = requisicao.question("Por favor insira o nome do quarto a ser editado\n")
+            let nomeQuarto = requisicao.question("Por favor, insira o nome do quarto a ser editado.\n")
             let quarto = this.quartos.find((room) => room.nome == nomeQuarto) //procura o quarto a ser editado a partir do nome fornecido
             if(quarto){ // achou um quarto com o nome fornecido
                 console.log("Qual tipo de dado gostaria de realizar uma alteração? (Insira o numero por favor)")
@@ -290,31 +332,31 @@ class Sistema {
                 console.log("5. Descricao")
                 const n = requisicao.question()
                 if(n==1){
-                    let newQuantidadeCamas = requisicao.question("Por favor digite a nova quantidade de camas a ser inserida\n")
+                    let newQuantidadeCamas = requisicao.question("Por favor, digite a nova quantidade de camas a ser inserida.\n")
                     quarto.camas = newQuantidadeCamas
                     console.log("Quantidade de camas alterada com sucesso!")
                 }
         
                 else if(n==2){
-                    let newPreco = requisicao.question("Por favor digite o novo novo valor a ser inserido\n")
+                    let newPreco = requisicao.question("Por favor, digite o novo novo valor a ser inserido.\n")
                     quarto.preco_noite = newPreco
                     console.log("Preco por noite alterado com sucesso!")
                 }
 
                 else if(n==3){
-                    let newDisponibilidade = requisicao.question("Por favor digite a nova Disponibilidade a ser inserida\n")
+                    let newDisponibilidade = requisicao.question("Por favor, digite a nova Disponibilidade a ser inserida.\n")
                     quarto.disponivel = newDisponibilidade
                  console.log("Disponibilidade alterada com sucesso!")
                 }
 
                 else if(n==4){
-                    let newName = requisicao.question("Por favor digite o novo Nome do quarto a ser inserido\n")
+                    let newName = requisicao.question("Por favor, digite o novo Nome do quarto a ser inserido.\n")
                     quarto.nome = newName
                     console.log("Nome do quarto alterado com sucesso!")
                 }
 
                 else if(n==5){
-                    let newDescricao = requisicao.question("Por favor digite a nova Descricao a ser inserida\n")
+                    let newDescricao = requisicao.question("Por favor, digite a nova Descricao a ser inserida.\n")
                     quarto.descricao = newDescricao
                     console.log("Descricao alterada com sucesso!")
                 }
@@ -330,7 +372,7 @@ class Sistema {
             console.log("Nenhum quarto adicionado no momento.")
         }
         else{
-            let nomeQuarto = requisicao.question("Por favor insira o nome do quarto a ser excluido\n")
+            let nomeQuarto = requisicao.question("Por favor, insira o nome do quarto a ser excluido.\n")
             let nome = this.quartos.find((room) => room.nome == nomeQuarto) //procura o quarto a ser excluido a partir do nome fornecido
             if(nome){ // achou
                 this.quartos = this.quartos.filter((quarto) => quarto.nome != nomeQuarto)
@@ -422,7 +464,7 @@ function controle(sessao,n){
         if (sessao.usuarioLogado.tipo == "cliente"){ //usuario é um cliente ,logo, metodos disponiveis para um cliente serao oferecidos
             let continuar = true
             while(continuar){ //while com o intuito de permitir que o usuario, enquanto logado, possa realizar outra acao depois de realizar uma.
-                console.log(`Bem-vindo ${sessao.usuarioLogado.dados.nome}, gostaria de realizar qual acao? (Insira o numero por favor)`)
+                console.log(`Bem-vindo ${sessao.usuarioLogado.dados.nome}, qual funcionalidade gostaria de utilizar? (Insira o numero por favor)`)
                 console.log("1. Ver meus Dados")
                 console.log("2. Ver Lista de Quartos")
                 console.log("3. Fazer reserva")
@@ -468,7 +510,7 @@ function controle(sessao,n){
         else if (sessao.usuarioLogado.tipo == "funcionario"){ //usuario é um funcionario, logo, metodos destinados a um funcionario serao oferecidos
             let continuar = true
             while(continuar){ //while com o intuito de permitir que o usuario, enquanto logado, possa realizar outra acao depois de realizar uma.
-            console.log(`Bem-vindo ${sessao.usuarioLogado.dados.nomeUsuario}, gostaria de realizar qual acao?`)
+            console.log(`Bem-vindo ${sessao.usuarioLogado.dados.nomeUsuario}, qual funcionalidade gostaria de utilizar? (Insira o numero por favor)`)
             console.log("1. Ver meus Dados")
             console.log("2. Ver Lista de Reservas")
             console.log("3. Ver Lista de Quartos")
@@ -534,7 +576,7 @@ function controle(sessao,n){
         sessao.sairPrograma()
     }
     else{ //inseriu alguma opcao nao correspondente as disponiveis, permite que usuario tente novamente
-        console.log("Opção inválida. Tente Novamente")
+        console.log("Opção inválida. Tente novamente.")
     }
 }
 
@@ -551,5 +593,7 @@ function main(){
         }
     }
 }
+
+
 
 main()

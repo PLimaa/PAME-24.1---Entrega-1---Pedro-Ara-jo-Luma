@@ -23,7 +23,8 @@ console.log(lista)
 
 const array = [1, 2, 3, 4, 5];
 
-// Remove o primeiro item do array
 array.splice(2, 2);
 
-console.log(array); // Resultado: [2, 3, 4, 5]
+console.log(array); 
+
+console.log(oi.length)
