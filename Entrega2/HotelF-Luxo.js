@@ -159,17 +159,17 @@ class Sistema {
 
 // metodo destinado a clientes. Procura a reserva feita por um cliente a partir de sua id e cancela tal reserva
     cancelarReserva(){
-        if(this.reservas.length==0){ // nao tem
+        if(this.reservas.length==0){ // lista de reservas vazia
             console.log("Nenhuma reserva adicionada.")
         }
         else{
             let idCliente = this.usuarioLogado.dados.id
-            let reserva = this.reservas.find((r) => r.idCliente == idCliente)
-            if(reserva){
+            let reserva = this.reservas.find((r) => r.idCliente == idCliente) 
+            if(reserva){ //achou
                 reserva.status = "cancelada"
                 console.log("Reserva cancelada!")
             }
-            else{
+            else{ // cliente nao tem reserva
                 console.log("Nenhuma reserva encontrada com a id fornecida.")
             }
         }
@@ -181,10 +181,10 @@ class Sistema {
         let idCliente = this.usuarioLogado.dados.id
         for (let i = 0; i<this.reservas.length;i++){
             if (this.reservas[i].idCliente == idCliente){
-                reservas.push(this.reservas[i])
+                reservas.push(this.reservas[i]) //adiciona as reservas que possuem a id do cliente dentro a lista reservas
             }
         }
-        if(reservas.length==0){
+        if(reservas.length==0){ //cliente nao possui reserva
             console.log("Nenhuma reserva encontrada.")
         }
         else{
@@ -192,11 +192,11 @@ class Sistema {
         }
     }
 
-//metodo destinado a clientes. Permite o cliente avliar a estadia atraves da sua reserva, avaliando de zero a dez
+//metodo destinado a clientes. Permite o cliente avaliar a estadia atraves da sua reserva, avaliando de zero a dez
     avaliarEstadia(){
         let idReserva = requisicao.question("Qual o id da reserva utilizada em sua estadia?\n")
-        let reserva = this.reservas.find((r) => r.id == idReserva)
-        if(reserva){
+        let reserva = this.reservas.find((r) => r.id == idReserva) //procura a reserva a ser avaliada a partir da id da reserva fornecida pelo cliente
+        if(reserva){ //achou
             let avaliacao = requisicao.question("De zero a dez, sendo dez Perfeita e zero Insatisfatorio, como voce avaliaria sua estadia conosco?\n")
             reserva.avaliacao = avaliacao
             console.log("Obrigado pela atencao e por sua estadia conosco. Volte sempre!")
@@ -212,10 +212,10 @@ class Sistema {
         for (let i=0; i<this.reservas.length;i++){
             let idReserva = this.reservas[i].id
             let avaliacao = this.reservas[i].avaliacao
-            avaliacoes.push({idReserva: idReserva,avaliacao : avaliacao})
+            avaliacoes.push({idReserva: idReserva,avaliacao : avaliacao}) //a partir das listas de reservas, adiciona o id de cada e a avaliacao correspondente na lista de avaliacoes
 
         }
-        if(avaliacoes.length==0){
+        if(avaliacoes.length==0){ //lista de reservas por enquanto vazia
             console.log("No nomento nenhuma avaliacao fora realizada.")
         }
         else{
@@ -228,7 +228,7 @@ class Sistema {
 //para funcionario passivel de alteracao nome de usuario, email e senha
 //id,nome,cpf e data de nascimento nao possuem a necessidade de possibilitar alteracao
     modificarDados(){
-        if(this.usuarioLogado.tipo == "cliente"){
+        if(this.usuarioLogado.tipo == "cliente"){ 
             console.log("Qual tipo de dado gostaria de realizar uma alteração? (Insira o numero por favor)")
             console.log("1. Email")
             console.log("2. Senha")
@@ -275,13 +275,13 @@ class Sistema {
 //metodo destinado a funcionarios. 
 //Permite editar os dados de um quarto especifico, utilizando o nome como forma de procura ja que tem que ser unico
     editarQuarto(){
-        if(this.quartos.length==0){
+        if(this.quartos.length==0){ //lita de quartos vazia
             console.log("Nnehum quarto adicionado no momento.")
         }
         else{
             let nomeQuarto = requisicao.question("Por favor insira o nome do quarto a ser editado\n")
-            let quarto = this.quartos.find((room) => room.nome == nomeQuarto)
-            if(quarto){
+            let quarto = this.quartos.find((room) => room.nome == nomeQuarto) //procura o quarto a ser editado a partir do nome fornecido
+            if(quarto){ // achou um quarto com o nome fornecido
                 console.log("Qual tipo de dado gostaria de realizar uma alteração? (Insira o numero por favor)")
                 console.log("1. Quantidade de camas")
                 console.log("2. Preco por noite")
@@ -319,24 +319,24 @@ class Sistema {
                     console.log("Descricao alterada com sucesso!")
                 }
             }
-            else{
+            else{ // nao achou nenhum quarto com o nome fornecido
             console.log("Nenhum quarto com o nome inserido adicionado no momento.")
             }
         }
     }
 //metodo destinado a funcionarios. Permite a exclusao de um quarto a partir do seu nome
     excluirQuarto(){
-        if(this.quartos.length==0){
+        if(this.quartos.length==0){ //lista de quartos vazia
             console.log("Nenhum quarto adicionado no momento.")
         }
         else{
             let nomeQuarto = requisicao.question("Por favor insira o nome do quarto a ser excluido\n")
-            let nome = this.quartos.find((room) => room.nome == nomeQuarto)
-            if(nome){
+            let nome = this.quartos.find((room) => room.nome == nomeQuarto) //procura o quarto a ser excluido a partir do nome fornecido
+            if(nome){ // achou
                 this.quartos = this.quartos.filter((quarto) => quarto.nome != nomeQuarto)
                 console.log("Quarto excluido com sucesso!")
             }
-            else{
+            else{ // nao ha quarto com o nome fornecido
                 console.log("Nenhum quarto com o nome inserido adicionado no momento.")
             }
         }
@@ -533,7 +533,7 @@ function controle(sessao,n){
     else if(n == "4"){ //usuario decide sair do programa
         sessao.sairPrograma()
     }
-    else{
+    else{ //inseriu alguma opcao nao correspondente as disponiveis, permite que usuario tente novamente
         console.log("Opção inválida. Tente Novamente")
     }
 }
@@ -544,9 +544,9 @@ function controle(sessao,n){
 function main(){
     const sessao = new Sistema 
     while(true){ //while para permitir com que um usario possa realizar outras acoes do menu inicial (ex: realizar login apos cadastro)
-        const n = introducao()
-        controle(sessao,n)
-        if(n=="4"){
+        const n = introducao() // n igual a opcao escolhida no menu inicial
+        controle(sessao,n) 
+        if(n=="4"){ //usuario decide encerrar sessao
             break
         }
     }
