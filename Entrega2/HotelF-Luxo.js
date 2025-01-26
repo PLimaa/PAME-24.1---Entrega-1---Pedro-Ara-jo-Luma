@@ -20,28 +20,28 @@ class Sistema {
         console.log("Bem-Vindo ao login, por favor, insira as informacoes abaixo")
         let email = requisicao.question("Insira o email da conta por favor\n")
         let senha = requisicao.question("Insira a senha por favor\n")
-        const cliente = this.clientes.find((client) => client.email == email && client.senha == senha)
-        if(cliente){
-            this.usuarioLogado = {tipo: "cliente", dados: cliente}
+        const cliente = this.clientes.find((client) => client.email == email && client.senha == senha)  //procura email e senha na lista de clientes
+        if(cliente){ //achou email e senha correspondentes a um cliente, login bem sucedido
+            this.usuarioLogado = {tipo: "cliente", dados: cliente} //dados = dados do cliente que possui email e senha achados no find
             console.log("Login bem sucedido!")
             return
         }
-        const funcionario = this.funcionarios.find((worker) => worker.email == email && worker.senha == senha)
-        if(funcionario){
-            this.usuarioLogado = {tipo: "funcionario" , dados: funcionario}
+        const funcionario = this.funcionarios.find((worker) => worker.email == email && worker.senha == senha) // procura email e senha na lista de funcionarios
+        if(funcionario){ // achou email e senha correspondentes a um funcionario, login bem sucedido
+            this.usuarioLogado = {tipo: "funcionario" , dados: funcionario} //dados = dados do funcionario que possui email e senha achados no find
             console.log("Login bem sucedido!")
             return
         }
-        this.usuarioLogado = "erro"
+        this.usuarioLogado = "erro" // caso nao tenha achado nenhuma correspondecia, o atributo e definido como erro, para que possa voltar ao menu inicial
         
         console.log("Erro, email ou senha incorretos. Retornando ao Menu principal.")
         
     }
 
 //metodo para realizar cadastro, recolhe os dados e insere na lista de clientes ou funcionarios, a depender da escolha do usuario.
-    fazerCadastroCliente(){
+    fazerCadastroCliente(){ //cadastro como cliente, serao recolhidos dados especificos para um cliente
         console.log("Bem-Vindo ao Cadastro como Cliente, por favor, insira as informacoes abaixo")
-        let id = this.clientes.length + 1
+        let id = this.clientes.length + 1 //cria sempre uma nova id unica, ja que a lenght de this.clientes é o numero de clientes, logo a nova id sera a id do ultimo cliente (==lenght) +1.
         let nome = requisicao.question("Qual o seu nome?\n")
         let dia = requisicao.question("Qual o seu dia de nascimento?\n")
         let mes = requisicao.question("Qual o seu mes de nascimento?\n")
@@ -51,7 +51,7 @@ class Sistema {
         let senha = requisicao.question("Por favor insira a senha\n")
         let data = `${dia}/${mes}/${ano}`
         let novoCliente = new Cliente(id,nome,data,cpf,email,senha)
-        this.clientes.push(novoCliente)
+        this.clientes.push(novoCliente) // insere o novo cliente na lista de clientes
         console.log("Cadastro de cliente realizado!")
         return
 
@@ -59,13 +59,13 @@ class Sistema {
 
     fazerCadastroFuncionario(){
         console.log("Bem-Vindo ao Cadastro como Funcionario, por favor, insira as informacoes abaixo")
-        let id = this.funcionarios.length + 1
+        let id = this.funcionarios.length + 1 //cria sempre uma nova id unica, ja que a lenght de this.funcionarios é o numero de funcionarios, logo a nova id sera a id do ultimo funcionario (==lenght) +1.
         let usuario = requisicao.question("Qual sera o nome do Usuario?\n")
         let cpf = requisicao.question("Qual o seu cpf?\n")
         let email = requisicao.question("Qual o seu e-mail?\n")
         let senha = requisicao.question("Por favor insira a senha\n")
         let novoFuncionario = new Funcionário(id,usuario,cpf,email,senha)
-        this.funcionarios.push(novoFuncionario)
+        this.funcionarios.push(novoFuncionario) // insere o novo funcionario na lista de funcionarios
         console.log("Cadastro de funcionario realizado!")
         return
     }
@@ -77,7 +77,7 @@ class Sistema {
 
 // metodo para visualizacao da lista de reservas. Exclusivo para funcionarios
     VerListaReservas(){
-        if(this.reservas.length == 0){
+        if(this.reservas.length == 0){ //lista de reservas esta vazia
             console.log("No momento não há nenhuma reserva realizada.")
         }
         else {
@@ -85,7 +85,7 @@ class Sistema {
         }
     }
 // metodo para visualizacao da lista de quartos.
-    verListaQuartos(){
+    verListaQuartos(){ //lista de quartos esta vazia
         if(this.quartos.length == 0){
             console.log("No momento não há nenhum quarto adicionado.")
         }
@@ -96,7 +96,7 @@ class Sistema {
 
 // metodo para visualizacao da lista de clientes. Exclusivo para funcionarios
     verListaClientes(){
-        if(this.clientes.length == 0){
+        if(this.clientes.length == 0){ //lista de clientes esta vazia
             console.log("No momento não há nenhum cliente cadastrado.")
         }
         else {
@@ -106,15 +106,20 @@ class Sistema {
 
 // metodo destinado a funcionarios. Altera status da reserva a partir do id da mesma, id essa única.
     mudarStatusReserva(){
-        if(this.reservas.length==0){
+        if(this.reservas.length==0){ //lista de reservas esta vazia
             console.log("No momento não há nenhuma reserva realizada.")
         }
         else{
-        let id = requisicao.question("Qual o id da Reserva que gostaria de alterar o status?\n")
-        let reserva = this.reservas.find((numero) => numero.id == id)
-        let status = requisicao.question("Qual seria o novo status da reserva? (pendente, adiada, realizada, cancelada) \n")
-        reserva.status = status
-        console.log("Status da reserva alterado.")
+            let id = requisicao.question("Qual o id da Reserva que gostaria de alterar o status?\n")
+            let reserva = this.reservas.find((numero) => numero.id == id) //procura reserva com o id correspondente ao inserido pelo usuario
+            if(reserva){//achou
+                let status = requisicao.question("Qual seria o novo status da reserva? (pendente, adiada, realizada, cancelada) \n")
+                reserva.status = status
+                console.log("Status da reserva alterado.")
+            }
+            else{ //nao tem reserva com a id inserida
+                console.log("Nenhuma reserva com a id inserida encontrada.")
+            }
         }
     }
 
@@ -126,14 +131,15 @@ class Sistema {
         let nome = requisicao.question("Qual sera o nome do quarto?\n")
         let descricao = requisicao.question("Qual sera a descricao do quarto?\n")
         let quarto = new Quartos(camas,preco_noite,disponivel,nome,descricao)
-        this.quartos.push(quarto)
+        this.quartos.push(quarto) //adiciona o novo quarto na lista de quartos
         console.log("Quarto adicionado com sucesso!")
     }
 
 // metodo destinado a clientes. Recolhe os dados e insere uma  nova reserva na lista de reservas
 // status inicialmente pendente ja que precisa ser alterado como realizada por algum funcionario
+// avaliacao inicialmente pendente ja que a reserva ainda sera avaliada pelo clinte 
     fazerReserva(){
-        let id = this.reservas.length + 1
+        let id = this.reservas.length + 1 //cria sempre uma nova id unica, ja que a lenght de this.reservas é o numero de reservas, logo a nova id sera a id da ultima reserva (==lenght) +1.
         let idCliente = this.usuarioLogado.dados.id
         let status = "pendente"
         let dia_checkin = requisicao.question("Qual sera o dia de checkin?\n")
@@ -146,14 +152,14 @@ class Sistema {
         let data_checkin = `${dia_checkin}/${mes_checkin}/${ano_checkin}`
         let data_checkout = `${dia_checkout}/${mes_checkout}/${ano_checkout}`
         let reserva = new Reserva (id,idCliente,status,data_checkin,data_checkout,avaliacao)
-        this.reservas.push(reserva)
+        this.reservas.push(reserva) //nova reserva inserida na lista de reservas 
         console.log("Reserva feita com sucesso!")
 
     }
 
 // metodo destinado a clientes. Procura a reserva feita por um cliente a partir de sua id e cancela tal reserva
     cancelarReserva(){
-        if(this.reservas.length==0){
+        if(this.reservas.length==0){ // nao tem
             console.log("Nenhuma reserva adicionada.")
         }
         else{
