@@ -2,7 +2,13 @@
 // Sistema Hotel F - Luxo //
 //------------------------//
 
-var requisicao = require('readline-sync') // pacote para permitir os inputs para o usuario
+const requisicao = require('readline-sync') // pacote para permitir os inputs para o usuario
+const bcrypt = require('bcrypt');
+
+
+
+//npm install bcrypt
+
 
 // classe Sistema. engloba os metodos de interacao para usuarios logados.
 // possui atributos de controle, listas de clientes,funcionarios,reservas e quartos
@@ -22,14 +28,14 @@ class Sistema {
         console.log("Bem-Vindo ao login, por favor, insira as informacoes abaixo.")
         let email = requisicao.question("Insira o email da conta por favor.\n")
         let senha = requisicao.question("Insira a senha por favor.\n")
-        const cliente = this.clientes.find((client) => client.email == email && client.senha == senha)  //procura email e senha na lista de clientes
-        if(cliente){ //achou email e senha correspondentes a um cliente, login bem sucedido
+        const cliente = this.clientes.find((client) => client.email == email)  //procura email na lista de clientes
+        if(cliente && bcrypt.compareSync(senha,cliente.senha)){ // se achou email e as senhas comparadas batem
             this.usuarioLogado = {tipo: "cliente", dados: cliente} //dados = dados do cliente que possui email e senha achados no find
             console.log("Login bem sucedido!")
             return
         }
-        const funcionario = this.funcionarios.find((worker) => worker.email == email && worker.senha == senha) // procura email e senha na lista de funcionarios
-        if(funcionario){ // achou email e senha correspondentes a um funcionario, login bem sucedido
+        const funcionario = this.funcionarios.find((worker) => worker.email == email) // procura email na lista de funcionarios
+        if(funcionario && bcrypt.compareSync(senha,funcionario.senha)){ // se achou email e as senhas batem
             this.usuarioLogado = {tipo: "funcionario" , dados: funcionario} //dados = dados do funcionario que possui email e senha achados no find
             console.log("Login bem sucedido!")
             return
@@ -71,8 +77,10 @@ class Sistema {
             }
         }       
         let senha = requisicao.question("Por favor, insira a senha.\n")
+        let salt = bcrypt.genSaltSync(10)
+        let senhaHash = bcrypt.hashSync(senha, salt)
         let data = `${dia}/${mes}/${ano}`
-        let novoCliente = new Cliente(id,nome,data,cpf,email,senha)
+        let novoCliente = new Cliente(id,nome,data,cpf,email,senhaHash)
         this.clientes.push(novoCliente) // insere o novo cliente na lista de clientes
         console.log("Cadastro de cliente realizado!")
         return
@@ -106,7 +114,9 @@ class Sistema {
             }
         }
         let senha = requisicao.question("Por favor insira a senha.\n")
-        let novoFuncionario = new Funcionário(id,usuario,cpf,email,senha)
+        let salt = bcrypt.genSaltSync(10)
+        let senhaHash = bcrypt.hashSync(senha, salt)
+        let novoFuncionario = new Funcionário(id,usuario,cpf,email,senhaHash)
         this.funcionarios.push(novoFuncionario) // insere o novo funcionario na lista de funcionarios
         console.log("Cadastro de funcionario realizado!")
         return
