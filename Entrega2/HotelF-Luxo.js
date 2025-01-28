@@ -46,7 +46,7 @@ class Sistema {
             console.log("Erro, email ou senha incorretos. Retornando ao Menu principal.")
         }
         catch(erro){
-            console.error("Ocorreu um erro ao realizar o cadastro:")
+            console.error("Ocorreu um erro ao realizar o login")
         }
     }
 
