@@ -3,7 +3,7 @@
 //------------------------//
 
 const requisicao = require('readline-sync') // pacote para permitir os inputs para o usuario
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt'); //pacote para criptografar senhas e comparar
 
 
 
@@ -25,25 +25,29 @@ class Sistema {
 //metodo para realizar o login, procura o email e senha tanto na lista de funcionarios, quanto na de clientes, definindo seu tipo de acordo.
 //usuarioLogado = {tipo:"cliente ou funcionario", dados: dados do usuario}
     fazerLogin(){
-        console.log("Bem-Vindo ao login, por favor, insira as informacoes abaixo.")
-        let email = requisicao.question("Insira o email da conta por favor.\n")
-        let senha = requisicao.question("Insira a senha por favor.\n")
-        const cliente = this.clientes.find((client) => client.email == email)  //procura email na lista de clientes
-        if(cliente && bcrypt.compareSync(senha,cliente.senha)){ // se achou email e as senhas comparadas batem
-            this.usuarioLogado = {tipo: "cliente", dados: cliente} //dados = dados do cliente que possui email e senha achados no find
-            console.log("Login bem sucedido!")
-            return
-        }
-        const funcionario = this.funcionarios.find((worker) => worker.email == email) // procura email na lista de funcionarios
-        if(funcionario && bcrypt.compareSync(senha,funcionario.senha)){ // se achou email e as senhas batem
-            this.usuarioLogado = {tipo: "funcionario" , dados: funcionario} //dados = dados do funcionario que possui email e senha achados no find
-            console.log("Login bem sucedido!")
-            return
-        }
-        this.usuarioLogado = "erro" // caso nao tenha achado nenhuma correspondecia, o atributo e definido como erro, para que possa voltar ao menu inicial
+        try{
+            console.log("Bem-Vindo ao login, por favor, insira as informacoes abaixo.")
+            let email = requisicao.question("Insira o email da conta por favor.\n")
+            let senha = requisicao.question("Insira a senha por favor.\n")
+            const cliente = this.clientes.find((client) => client.email == email)  //procura email na lista de clientes
+            if(cliente && bcrypt.compareSync(senha,cliente.senha)){ // se achou email e as senhas comparadas batem
+                this.usuarioLogado = {tipo: "cliente", dados: cliente} //dados = dados do cliente que possui email e senha achados no find
+                console.log("Login bem sucedido!")
+                return
+            }
+            const funcionario = this.funcionarios.find((worker) => worker.email == email) // procura email na lista de funcionarios
+            if(funcionario && bcrypt.compareSync(senha,funcionario.senha)){ // se achou email e as senhas batem
+                this.usuarioLogado = {tipo: "funcionario" , dados: funcionario} //dados = dados do funcionario que possui email e senha achados no find
+                console.log("Login bem sucedido!")
+                return
+            }
+            this.usuarioLogado = "erro" // caso nao tenha achado nenhuma correspondecia, o atributo e definido como erro, para que possa voltar ao menu inicial
         
-        console.log("Erro, email ou senha incorretos. Retornando ao Menu principal.")
-        
+            console.log("Erro, email ou senha incorretos. Retornando ao Menu principal.")
+        }
+        catch(erro){
+            console.error("Ocorreu um erro ao realizar o cadastro:")
+        }
     }
 
 //metodo para realizar cadastro, recolhe os dados e insere na lista de clientes ou funcionarios, a depender da escolha do usuario.
@@ -77,8 +81,8 @@ class Sistema {
             }
         }       
         let senha = requisicao.question("Por favor, insira a senha.\n")
-        let salt = bcrypt.genSaltSync(10)
-        let senhaHash = bcrypt.hashSync(senha, salt)
+        let salt = bcrypt.genSaltSync(10) //gera o salt, valor adicionado a senha para gerar o Hash, serve para diferenciar senhas iguais
+        let senhaHash = bcrypt.hashSync(senha, salt) // criptografa a senha
         let data = `${dia}/${mes}/${ano}`
         let novoCliente = new Cliente(id,nome,data,cpf,email,senhaHash)
         this.clientes.push(novoCliente) // insere o novo cliente na lista de clientes
@@ -114,8 +118,8 @@ class Sistema {
             }
         }
         let senha = requisicao.question("Por favor insira a senha.\n")
-        let salt = bcrypt.genSaltSync(10)
-        let senhaHash = bcrypt.hashSync(senha, salt)
+        let salt = bcrypt.genSaltSync(10) //gera o salt, valor adicionado a senha para gerar o Hash, serve para diferenciar senhas iguais
+        let senhaHash = bcrypt.hashSync(senha, salt) // criptografa a senha
         let novoFuncionario = new Funcionário(id,usuario,cpf,email,senhaHash)
         this.funcionarios.push(novoFuncionario) // insere o novo funcionario na lista de funcionarios
         console.log("Cadastro de funcionario realizado!")
