@@ -56,7 +56,7 @@ class Sistema {
                 verificaCPF = false   
             }
             else{
-                console.log("CPF invalido. Tente novamente.")
+                console.log("CPF inválido. Verifique se ha 11 numeros. Tente novamente")
             }
         }
         let email = "" 
@@ -67,7 +67,7 @@ class Sistema {
                 verificaEmail= false
             }
             else{
-                console.log("E-mail invalido. Tente novamente.")
+                console.log("E-mail invalido. Garanta que o @ seja inserido. Tente novamente.")
             }
         }       
         let senha = requisicao.question("Por favor, insira a senha.\n")
@@ -82,16 +82,16 @@ class Sistema {
     fazerCadastroFuncionario(){
         console.log("Bem-Vindo ao Cadastro como Funcionario, por favor, insira as informacoes abaixo.")
         let id = this.funcionarios.length + 1 //cria sempre uma nova id unica, ja que a lenght de this.funcionarios é o numero de funcionarios, logo a nova id sera a id do ultimo funcionario (==lenght) +1.
-        let usuario = requisicao.question("Por favor, insira nome de Usuario a ser reegistrado.\n")
+        let usuario = requisicao.question("Por favor, insira nome de Usuario a ser registrado.\n")
         let cpf = ""
         let verificaCPF=true
         while(verificaCPF){ //verifica se o CPF esta correto, permitindo inserir novamente em caso de erro
-            cpf = requisicao.question("Por favor, insira o seu CCPF (Apenas numeros por favor)\n")
+            cpf = requisicao.question("Por favor, insira o seu CPF (Apenas numeros por favor)\n")
             if(cpf.length==11){
                 verificaCPF = false   
             }
             else{
-                console.log("CPF invalido. Tente Novamente")
+                console.log("CPF inválido. Verifique se ha 11 numeros. Tente novamente")
             }
         }
         let email = "" 
@@ -102,7 +102,7 @@ class Sistema {
                 verificaEmail= false
             }
             else{
-                console.log("E-mail invalido. Tente novamente")
+                console.log("E-mail invalido. Garanta que o @ seja inserido. Tente novamente.")
             }
         }
         let senha = requisicao.question("Por favor insira a senha.\n")
@@ -169,7 +169,7 @@ class Sistema {
     adicionarQuarto(){
         let camas = requisicao.question("Por favor, insira a quantidade de camas do quarto.\n")
         let preco_noite = requisicao.question("Por favor, insira o preco por noite do quarto.\n")
-        let disponivel = requisicao.question("Por favor, insira a situacao de disponibilidade do quarto.\n")
+        let disponivel = requisicao.question("Por favor, insira a situacao de disponibilidade do quarto. (disponivel ou indisponivel)\n")
         let nome = requisicao.question("Por favor, insira o nome do quarto a ser registrado.\n")
         let descricao = requisicao.question("Por favor, insira a descricao do quarto.\n")
         let quarto = new Quartos(camas,preco_noite,disponivel,nome,descricao)
@@ -181,21 +181,44 @@ class Sistema {
 // status inicialmente pendente ja que precisa ser alterado como realizada por algum funcionario
 // avaliacao inicialmente pendente ja que a reserva ainda sera avaliada pelo clinte 
     fazerReserva(){
-        let id = this.reservas.length + 1 //cria sempre uma nova id unica, ja que a lenght de this.reservas é o numero de reservas, logo a nova id sera a id da ultima reserva (==lenght) +1.
-        let idCliente = this.usuarioLogado.dados.id
-        let status = "pendente"
-        let dia_checkin = requisicao.question("Por favor, insira o dia de checkin.\n")
-        let mes_checkin = requisicao.question("Por favor, insira o mes de checkin.\n")
-        let ano_checkin = requisicao.question("Por favor, insira o ano de checkin.\n")
-        let dia_checkout = requisicao.question("Por favor, insira o dia de checkout.\n")
-        let mes_checkout = requisicao.question("Por favor, insira o mes de checkout.\n")
-        let ano_checkout = requisicao.question("Por favor, insira o ano de checkout.\n")
-        let avaliacao = "pendente"
-        let data_checkin = `${dia_checkin}/${mes_checkin}/${ano_checkin}`
-        let data_checkout = `${dia_checkout}/${mes_checkout}/${ano_checkout}`
-        let reserva = new Reserva (id,idCliente,status,data_checkin,data_checkout,avaliacao)
-        this.reservas.push(reserva) //nova reserva inserida na lista de reservas 
-        console.log("Reserva feita com sucesso!")
+        if(this.quartos.length != 0){
+            let disponibilidadeQuarto = this.quartos.find((quarto) => quarto.disponivel == "disponivel") //verifica se ha quarto disponivel
+            if(disponibilidadeQuarto){ // achou quarto disponivel
+                console.log(this.quartosDisponiveis())
+                console.log("Dos quartos acima, insira o nome daquele que deseja reservar.")
+                let nome = requisicao.question()
+                let quarto = this.quartos.find((ocupado) => ocupado.nome == nome)
+                quarto.disponivel = "indisponivel"
+                let id = this.reservas.length + 1 //cria sempre uma nova id unica, ja que a lenght de this.reservas é o numero de reservas, logo a nova id sera a id da ultima reserva (==lenght) +1.
+                let idCliente = this.usuarioLogado.dados.id
+                let status = "pendente"
+                let dia_checkin = requisicao.question("Por favor, insira o dia de checkin.\n")
+                let mes_checkin = requisicao.question("Por favor, insira o mes de checkin.\n")
+                let ano_checkin = requisicao.question("Por favor, insira o ano de checkin.\n")
+                let dia_checkout = requisicao.question("Por favor, insira o dia de checkout.\n")
+                let mes_checkout = requisicao.question("Por favor, insira o mes de checkout.\n")
+                let ano_checkout = requisicao.question("Por favor, insira o ano de checkout.\n")
+                let datasValidas = this.verificarDatas(dia_checkin,mes_checkin,ano_checkin,dia_checkout,mes_checkout,ano_checkout) // verifica se as dtas de check in e check out sao validas
+                if(datasValidas){ // datas validas
+                    let avaliacao = "pendente"
+                    let data_checkin = `${dia_checkin}/${mes_checkin}/${ano_checkin}`
+                    let data_checkout = `${dia_checkout}/${mes_checkout}/${ano_checkout}`
+                    let reserva = new Reserva (id,idCliente,status,data_checkin,data_checkout,avaliacao)
+                    this.reservas.push(reserva) //nova reserva inserida na lista de reservas 
+                    console.log("Reserva feita com sucesso!")
+                }
+                else{ // datas nao validas
+                    quarto.disponivel = "disponivel"
+                    console.log("Data de checkin ou checkout invalida. Tente novamente")
+                }
+            }
+            else{ // nao achou quarto disponivel
+                console.log("Infelizmente nao possuimos quarto disponivel no momento. Volte depois e verifique a disponibilidade!")
+            }
+        }
+        else{ // lista de quartos vazia
+            console.log("No momento nao ha nenhum quarto para realizar reserva. Volte mais tarde!")
+        }
 
     }
 
@@ -385,13 +408,61 @@ class Sistema {
         
     }
 
+//funcao auxiliar com o intuito de filtrar os quartos disponiveis
+    quartosDisponiveis(){
+        let quartosLivres=[]
+        for(let i=0;i<this.quartos.length;i++){
+            if(this.quartos[i].disponivel=="disponivel"){ // realiza um for na lista de quartos e caso a disponibilidade do quarto seja "disponivel", tal quarto é adicionado na lista de possiveis quartos
+                quartosLivres.push(this.quartos[i])
+            }
+        }
+        return quartosLivres
+    }
+
+//funcao auxiliar para verificar se as datas de check in e checkout sao validas 
+//di - dia checkin, mi - mes checkin, ai - ano checkin
+//dc - dia checkout, mc - mes checkout, ac - ano checkout
+    verificarDatas(dI,mI,aI,dC,mC,aC){ 
+        let di = Number(dI)
+        let mi = Number(mI)
+        let ai = Number(aI)
+        let dc = Number(dC)
+        let mc = Number(mC)
+        let ac = Number(aC)
+        let dataValida=false
+        if(ac>ai){
+            dataValida = true
+            return dataValida
+        }
+        else if(ac==ai){
+            if(mc>mi){
+                dataValida = true
+                return dataValida
+            }
+            else if(mc==mi){
+                if(dc>=di){
+                    dataValida =true
+                    return dataValida
+                }
+                else{
+                    return dataValida
+                }
+
+            }
+            else{
+                return dataValida
+            }
+        }
+        else{
+            return dataValida
+        }
+    }
+            
 // metodo para encerrar a sessao no programa
     sairPrograma(){
         console.log("Saindo do programa...")
     }
-
 }
-
 
 //classe Reserva. Define os atributos que caracterizam uma reserva
 class Reserva {
@@ -501,7 +572,7 @@ function controle(sessao,n){
                         sessao.usuarioLogado = null
                         break
                     default:
-                        console.log("Opcao invalida. Tente novamente.")
+                        console.log("Opcao invalida. Garanta que o numero inserido esteja entre as opcoes disponiveis. Tente novamente.")
 
             }
         }
@@ -559,7 +630,7 @@ function controle(sessao,n){
                     sessao.usuarioLogado=null
                     break
                 default:
-                    console.log("Opcao invalida. Tente novamente.")
+                    console.log("Opcao invalida. Garanta que o numero inserido esteja entre as opcoes disponiveis. Tente novamente.")
 
             }
 
@@ -576,7 +647,7 @@ function controle(sessao,n){
         sessao.sairPrograma()
     }
     else{ //inseriu alguma opcao nao correspondente as disponiveis, permite que usuario tente novamente
-        console.log("Opção inválida. Tente novamente.")
+        console.log("Opcao invalida. Garanta que o numero inserido esteja entre as opcoes disponiveis. Tente novamente.")
     }
 }
 

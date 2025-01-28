@@ -8,7 +8,7 @@ console.log(cliente)
 oi="26"
 
 
-console.log(oi)
+console.log(Number(oi))
 
 lista=[]
 a=clientes.length
