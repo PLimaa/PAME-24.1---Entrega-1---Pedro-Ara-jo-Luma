@@ -2,13 +2,13 @@
 // Sistema Hotel F - Luxo //
 //------------------------//
 
+//Instale os pacotes abaixos no terminal. Essenciais para o funcionamento do programa
+//npm install bcrypt
+//npm install readline-sync
+
+
 const requisicao = require('readline-sync') // pacote para permitir os inputs para o usuario
 const bcrypt = require('bcrypt'); //pacote para criptografar senhas e comparar
-
-
-
-//npm install bcrypt
-
 
 // classe Sistema. engloba os metodos de interacao para usuarios logados.
 // possui atributos de controle, listas de clientes,funcionarios,reservas e quartos
