@@ -1,25 +1,51 @@
-import { useRouter } from "next/router";
+"use client";
 
-export default function LollipopDetail() {
-  const router = useRouter();
-  const { id } = router.query;
+import Sidebar from '@/app/componentes/Sidebar';
 
-  const pirulitos = {
-    1: { name: "Pirulito de Morango", flavor: "Morango", price: 2.5, desc: "Doce e saboroso" },
-    2: { name: "Pirulito de Uva", flavor: "Uva", price: 2.8, desc: "Sabor intenso de uva" },
-  };
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import Link from "next/link";
 
-  const pirulito = pirulitos[Number(id) as keyof typeof pirulitos];
+const lollipops = [
+  { id: 1, name: "Morango", flavor: "Morango", price: 5.99, description: "Doce e saboroso.", ingredients: "Corante natural, aroma de morango.", image: "/imagens/morango.jpeg", available: true },
+  { id: 2, name: "Uva", flavor: "Uva", price: 4.99, description: "Sabor marcante de uva.", ingredients: "Corante natural, aroma de uva.", image: "/imagens/uva.php", available: false },
+  { id: 3, name: "Limão", flavor: "Limão", price: 5.49, description: "Refrescante e cítrico.", ingredients: "Corante natural, aroma de limão.", image: "/imagens/limao.jpeg", available: true },
+  { id: 4, name: "Mirtilo", flavor: "Mirtilo", price: 5.79, description: "Frutado e levemente adocicado.", ingredients: "Corante natural, aroma de mirtilo.", image: "/imagens/mirtilo.jpeg", available: true }
+];
 
-  if (!pirulito) return <p>Carregando...</p>;
+export default function LollipopDetails() {
+  const { id } = useParams();
+  const [lollipop, setLollipop] = useState<any>(null);
+
+  useEffect(() => {
+    const foundLollipop = lollipops.find(l => l.id === Number(id));
+    setLollipop(foundLollipop || null);
+  }, [id]);
+
+  if (!lollipop) {
+    return <p className="text-center text-gray-500 mt-10">Pirulito não encontrado.</p>;
+  }
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold">{pirulito.name}</h1>
-      <p>Sabor: {pirulito.flavor}</p>
-      <p>Preço: R$ {pirulito.price.toFixed(2)}</p>
-      <p>{pirulito.desc}</p>
-      <button className="bg-green-500 text-white p-2 rounded mt-2">Comprar Pirulito</button>
+    <div className="flex h-screen">
+                <Sidebar />
+    <div className="flex-1 flex flex-col items-center justify-center min-h-screen bg-gray-600 p-6">
+      <div className="w-full max-w-md bg-white shadow-md rounded-lg p-10">
+        <img src={lollipop.image} alt={lollipop.name} className="w-full h-80 object-cover rounded-md" />
+        <h1 className="text-2xl font-bold mt-4 text-gray-800">{lollipop.name}</h1>
+        <p className="text-gray-600">{lollipop.description}</p>
+        <p className="text-lg font-semibold mt-2 text-gray-800">R$ {lollipop.price.toFixed(2)}</p>
+        <p className="text-sm text-gray-500">Sabor: {lollipop.flavor}</p>
+        <p className="text-sm text-gray-500">Ingredientes: {lollipop.ingredients}</p>
+        <p className={`mt-2 text-sm ${lollipop.available ? "text-green-500" : "text-red-500"}`}>
+          {lollipop.available ? "Disponível" : "Esgotado"}
+        </p>
+
+        <button className="mt-4 w-full bg-blue-500 text-white px-4 py-2 rounded">
+          Comprar Pirulito
+        </button>
+      </div>
+    </div>
     </div>
   );
 }
