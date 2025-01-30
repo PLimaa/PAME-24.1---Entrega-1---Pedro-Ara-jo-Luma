@@ -22,9 +22,10 @@ export default function Home() {
   return (
     <div className="flex h-screen">
       <Sidebar />
-      <div className="flex flex-col w-full p-4">
+      <div className="flex flex-col w-full p-6 overflow-y-auto h-screen bg-gradient-to-br from-pink-100 to-purple-200">
+        <h1 className="text-4xl font-bold text-center text-purple-700 mb-6 drop-shadow-md">ZeroLito</h1>
         <SearchBar search={search} setSearch={setSearch} />
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-6">
           {filteredLollipops.map(lollipop => (
             <LollipopCard key={lollipop.id} lollipop={lollipop} />
           ))}

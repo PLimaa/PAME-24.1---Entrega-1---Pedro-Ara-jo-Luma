@@ -1,10 +1,8 @@
 "use client";
 
 import Sidebar from '@/app/componentes/Sidebar';
-
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import Link from "next/link";
 
 const lollipops = [
   { id: 1, name: "Morango", flavor: "Morango", price: 5.99, description: "Doce e saboroso.", ingredients: "Corante natural, aroma de morango.", image: "/imagens/morango.jpeg", available: true },
@@ -28,24 +26,24 @@ export default function LollipopDetails() {
 
   return (
     <div className="flex h-screen">
-                <Sidebar />
-    <div className="flex-1 flex flex-col items-center justify-center min-h-screen bg-gray-600 p-6">
-      <div className="w-full max-w-md bg-white shadow-md rounded-lg p-10">
-        <img src={lollipop.image} alt={lollipop.name} className="w-full h-80 object-cover rounded-md" />
-        <h1 className="text-2xl font-bold mt-4 text-gray-800">{lollipop.name}</h1>
-        <p className="text-gray-600">{lollipop.description}</p>
-        <p className="text-lg font-semibold mt-2 text-gray-800">R$ {lollipop.price.toFixed(2)}</p>
-        <p className="text-sm text-gray-500">Sabor: {lollipop.flavor}</p>
-        <p className="text-sm text-gray-500">Ingredientes: {lollipop.ingredients}</p>
-        <p className={`mt-2 text-sm ${lollipop.available ? "text-green-500" : "text-red-500"}`}>
-          {lollipop.available ? "Disponível" : "Esgotado"}
-        </p>
+      <Sidebar />
+      <div className="flex-1 flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-pink-100 to-purple-200 p-6">
+        <div className="w-full max-w-md bg-white shadow-lg rounded-lg p-6 transform transition-transform duration-300 hover:scale-105 hover:shadow-xl">
+          <img src={lollipop.image} alt={lollipop.name} className="w-full h-72 object-cover rounded-md" />
+          <h1 className="text-2xl font-bold mt-4 text-gray-800">{lollipop.name}</h1>
+          <p className="text-gray-600 mt-2">{lollipop.description}</p>
+          <p className="text-lg font-semibold mt-4 text-gray-800">R$ {lollipop.price.toFixed(2)}</p>
+          <p className="text-sm text-gray-500">Sabor: {lollipop.flavor}</p>
+          <p className="text-sm text-gray-500">Ingredientes: {lollipop.ingredients}</p>
+          <p className={`mt-2 text-sm ${lollipop.available ? "text-green-500" : "text-red-500"}`}>
+            {lollipop.available ? "Disponível" : "Esgotado"}
+          </p>
 
-        <button className="mt-4 w-full bg-blue-500 text-white px-4 py-2 rounded">
-          Comprar Pirulito
-        </button>
+          <button className="mt-6 w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200">
+            Comprar Pirulito
+          </button>
+        </div>
       </div>
-    </div>
     </div>
   );
 }

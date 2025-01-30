@@ -10,7 +10,7 @@ interface SearchBarProps {
         placeholder="Buscar pirulito..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        className="p-2 border border-gray-300 rounded w-full"
+        className="p-2 border border-gray-300 rounded w-full text-black"
       />
     );
   }
