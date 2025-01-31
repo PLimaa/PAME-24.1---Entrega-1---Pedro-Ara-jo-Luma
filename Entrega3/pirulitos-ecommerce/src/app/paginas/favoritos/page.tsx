@@ -9,22 +9,24 @@ interface Lollipop {
   name: string;
   flavor: string;
   price: number;
+  pricebag: number;
   description: string;
   ingredients: string;
   image: string;
 }
 
 export default function Favoritos() {
-  const router = useRouter();
-  const [favorites, setFavorites] = useState<Lollipop[]>([]);
+  const router = useRouter(); // Hook para navegação entre páginas
+  const [favorites, setFavorites] = useState<Lollipop[]>([]); // Estado que armazena os favoritos
 
+  // Função para carregar os favoritos do localStorage
   const loadFavorites = () => {
     const storedFavorites = localStorage.getItem("favorites");
     setFavorites(storedFavorites ? JSON.parse(storedFavorites) : []);
   };
 
   useEffect(() => {
-    loadFavorites();
+    loadFavorites(); // Carrega os favoritos ao montar o componente
     const handleStorageChange = () => loadFavorites();
     window.addEventListener("favoritesUpdated", handleStorageChange);
     return () => {
@@ -34,10 +36,10 @@ export default function Favoritos() {
 
   return (
     <div className="flex h-screen">
-      <Sidebar />
-      <div className="flex-1 flex flex-col items-center justify-center bg-gradient-to-br from-pink-100 to-purple-200 p-6">
+      <Sidebar /> {/* Barra lateral de navegação */}
+      <div className="flex-1 flex flex-col items-center justify-center bg-gradient-to-br from-blue-100 to-green-200 p-6">
         <div className="w-full max-w-4xl bg-white shadow-md rounded-lg p-6">
-          <h1 className="text-4xl font-bold text-center text-purple-700 mb-6 drop-shadow-md">Favoritos</h1>
+          <h1 className="text-4xl font-bold text-center text-black mb-6 drop-shadow-md">Favoritos</h1>
           {favorites.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-4">
               {favorites.map((lollipop) => (
@@ -56,6 +58,7 @@ export default function Favoritos() {
                   <h2 className="text-lg font-bold mt-2 text-black">{lollipop.name}</h2>
                   <p className="text-sm text-gray-600">{lollipop.description}</p>
                   <p className="text-md font-semibold mt-1 text-black">R$ {lollipop.price.toFixed(2)}</p>
+                  <p className="text-md font-semibold mt-1 text-black">R$ {lollipop.pricebag.toFixed(2)} (Preço por pacote)</p>
                   <button
                     onClick={() => router.push(`/paginas/lollipop/${lollipop.id}`)}
                     className="mt-2 bg-blue-500 text-white px-4 py-1 rounded"

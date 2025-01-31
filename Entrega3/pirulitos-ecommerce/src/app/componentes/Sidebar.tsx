@@ -2,12 +2,13 @@ import { useRouter } from "next/navigation";
 import { Home, Star, User, ShoppingCart, Package, Settings, HelpCircle, LogOut} from "lucide-react";
 
 export default function Sidebar() {
-  const router = useRouter();
+  const router = useRouter(); // Hook para navegar entre páginas
 
   return (
     <div className="w-64 bg-gray-900 text-white h-screen p-6 flex flex-col justify-between shadow-lg">
       <nav>
         <ul className="space-y-6">
+          {/* Botão para a página inicial */}
           <li>
             <button
               onClick={() => router.push("/paginas/index")}
@@ -16,6 +17,8 @@ export default function Sidebar() {
               <Home size={20} /> Página Inicial
             </button>
           </li>
+          
+          {/* Botão para os favoritos */}
           <li>
             <button
               onClick={() => router.push("/paginas/favoritos")}
@@ -24,6 +27,8 @@ export default function Sidebar() {
               <Star size={20} /> Favoritos
             </button>
           </li>
+          
+          {/* Botão para o perfil do usuário */}
           <li>
             <button
               onClick={() => router.push("/paginas/perfil")}
@@ -32,6 +37,8 @@ export default function Sidebar() {
               <User size={20} /> Perfil
             </button>
           </li>
+          
+          {/* Botão para o carrinho de compras */}
           <li>
             <button
               onClick={() => router.push("/paginas/carrinho")}
@@ -40,6 +47,8 @@ export default function Sidebar() {
               <ShoppingCart size={20} /> Carrinho
             </button>
           </li>
+          
+          {/* Botão para os pedidos do usuário */}
           <li>
             <button
               onClick={() => router.push("/paginas/pedidos")}
@@ -48,6 +57,8 @@ export default function Sidebar() {
               <Package size={20} /> Meus Pedidos
             </button>
           </li>
+          
+          {/* Botão para configurações da conta */}
           <li>
             <button
               onClick={() => router.push("/paginas/configuracoes")}
@@ -56,6 +67,8 @@ export default function Sidebar() {
               <Settings size={20} /> Configurações
             </button>
           </li>
+          
+          {/* Botão para suporte */}
           <li>
             <button
               onClick={() => router.push("/paginas/ajuda")}
@@ -67,6 +80,7 @@ export default function Sidebar() {
         </ul>
       </nav>
 
+      {/* Botão de logout */}
       <div className="mt-6">
         <button
           onClick={() => router.push("/paginas/login")}
